@@ -69,5 +69,17 @@ def submit():
         "total_credits": total_credits
     })
 
+@app.route('/health', methods=['GET'])
+def health():
+    """
+    Health check endpoint to ensure the service is running.
+
+    Returns:
+    JSON: A JSON response indicating the service status.
+    """
+    return jsonify({
+        "status": "Healthy"
+    })
+
 if __name__ == '__main__':
     app.run(debug=True)

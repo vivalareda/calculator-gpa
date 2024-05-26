@@ -1,0 +1,77 @@
+name: Reusable Docker Container Build
+
+on:
+  workflow_call:
+    inputs:
+      container-name:
+        required: true
+        type: string
+      tag:
+        required: true
+        type: string
+      context-path:
+        required: false
+        type: string
+        default: '.'
+      build-args:
+        required: false
+        type: string
+        default: ''
+    secrets:
+      GCP_CLOUDRUN_REGION:
+        required: true
+      GAR_JSON_KEY:
+        required: true
+      REGISTRY_NAME:
+        required: true
+      NEXT_PUBLIC_BACKEND_URL:
+        required: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # Login to Google Artifact Registry (GAR)
+      - name: Login to GAR
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ secrets.GCP_CLOUDRUN_REGION }}-docker.pkg.dev
+          username: _json_key
+          password: ${{ secrets.GAR_JSON_KEY }}
+
+      # Checkout the current repository
+      - uses: actions/checkout@v3
+
+      # Setup Docker Buildx for advanced build features
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      # Cache Docker layers to improve build speed
+      - name: Cache Docker layers
+        uses: actions/cache@v2
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-${{ inputs.container-name }}-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-${{ inputs.container-name }}
+
+      # Build and push the Docker image with the specified tag
+      - name: Build the Docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: ${{ inputs.context-path }}
+          push: true
+          build-args: |
+            ${{ inputs.build-args }}
+          tags: >-
+            ${{ secrets.GCP_CLOUDRUN_REGION }}-docker.pkg.dev/
+            ${{ secrets.REGISTRY_NAME }}/${{ inputs.container-name }}:
+            ${{ inputs.tag }}
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new
+
+      # Cleanup and move cache for future builds
+      - name: Move cache
+        run: |
+          rm -rf /tmp/.buildx-cache
+          mv /tmp/.buildx-cache-new /tmp/.buildx-cache

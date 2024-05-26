@@ -2,8 +2,6 @@ name: Build and Push Backend
 
 on:
   push:
-    paths:
-      - 'backend/**'
 
 jobs:
   call-build:

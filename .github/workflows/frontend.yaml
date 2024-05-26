@@ -2,9 +2,11 @@ name: Build and Deploy Frontend
 
 on:
   push:
+    paths:
+        - 'frontend/**'
 
 jobs:
-  build:
+  build-frontend:
     uses: ./.github/workflows/build-container.yaml
     with:
       container-name: frontend
@@ -15,8 +17,8 @@ jobs:
       GAR_JSON_KEY: ${{ secrets.GAR_JSON_KEY }}
       REGISTRY_NAME: ${{ secrets.REGISTRY_NAME }}
 
-  deploy:
-    needs: build
+  deploy-frontend:
+    needs: build-frontend
     uses: ./.github/workflows/deploy-gcp.yaml
     with:
       container-name: frontend

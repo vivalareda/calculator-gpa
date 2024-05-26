@@ -54,7 +54,7 @@ const ContentRectangle = () => {
       const currentCredits = watch('credits');
 
       if (currentGpa === undefined || currentCredits === undefined) {
-        alert('Please enter your current GPA and credits.');
+        alert('Veuillez entrez votre côte et le nombre de crédits complétés.');
         return;
       }
 
@@ -87,7 +87,7 @@ const ContentRectangle = () => {
               {...register('gpa', { valueAsNumber: true })}
             />
             {errors.gpa && <p className="text-red-500 pb-2">{errors.gpa.message}</p>}
-            <ShimmerButton type="button" onClick={handleNextStep}>Next</ShimmerButton>
+            <ShimmerButton type="button" onClick={handleNextStep}>Suivant</ShimmerButton>
           </div>
         )}
         {currentStep === 2 && (
@@ -98,37 +98,37 @@ const ContentRectangle = () => {
               {...register('credits', { valueAsNumber: true })}
             />
             {errors.credits && <p className="text-red-500 pb-2">{errors.credits.message}</p>}
-            <ShimmerButton type="button" onClick={handleNextStep}>Next</ShimmerButton>
+            <ShimmerButton type="button" onClick={handleNextStep}>Suivant</ShimmerButton>
           </div>
         )}
         {currentStep === 3 && (
           <div className={`absolute inset-0 flex flex-col items-center pt-2 transition-opacity duration-500 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
             <div className="mt-6 w-full">
-              <h2 className="text-xl font-bold mb-4 pb-3">Courses:</h2>
-              {courses.length === 0 && <p>No courses added yet.</p>}
+              <h2 className="text-xl font-bold mb-4 pb-3">Cours:</h2>
+              {courses.length === 0 && <p>Aucun cours ajouté.</p>}
               {courses.map((course, index) => (
                 <div key={index} className="bg-gray-100 p-4 mb-2 rounded shadow">
-                  <p><strong>Course Name:</strong> {course.courseName}</p>
+                  <p><strong>Nom du cours:</strong> {course.courseName}</p>
                   <p><strong>Credits:</strong> {course.credits}</p>
-                  <p><strong>Grade:</strong> {course.grade}</p>
+                  <p><strong>Note:</strong> {course.grade}</p>
                 </div>
               ))}
             </div>
             <div className='flex justify-center w-5/6 gap-16 pt-3'>
-              <ShimmerButton type="button" className="w-1/5 items-center pt-3" onClick={() => setIsModalOpen(true)}>Add a course</ShimmerButton>
+              <ShimmerButton type="button" className="w-1/5 items-center pt-3" onClick={() => setIsModalOpen(true)}>Ajouter un cours</ShimmerButton>
               {courses.length > 0 && (
                 <ShimmerButton
                   type='button'
                   className="w-1/5 items-center pt-3"
                   onClick={handleCalculateClick}
                 >
-                  Calculate
+                  Calculer
                 </ShimmerButton>
               )}
             </div>
             {gpa !== null && (
               <div className="mt-4 text-center">
-                <h3 className="text-xl font-bold">New GPA: <NumberTicker value={gpa} /></h3>
+                <h3 className="text-xl font-bold">Votre GPA: <NumberTicker value={gpa} /></h3>
               </div>
             )}
           </div>

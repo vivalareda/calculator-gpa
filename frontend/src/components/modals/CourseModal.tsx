@@ -28,7 +28,7 @@ const CourseModal: React.FC<CourseModalProps> = ({ isOpen, onClose, onSave }) =>
     if (isOpen) {
       setVisible(true);
     } else {
-      const timer = setTimeout(() => setVisible(false), 300); // Duration of the fade-out animation
+      const timer = setTimeout(() => setVisible(false), 300);
       return () => clearTimeout(timer);
     }
   }, [isOpen]);
@@ -50,19 +50,19 @@ const CourseModal: React.FC<CourseModalProps> = ({ isOpen, onClose, onSave }) =>
       <DialogContent className={`bg-white text-black p-0 overflow-hidden transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0'}`}>
         <DialogHeader className="pt-8 px-6">
           <DialogTitle className="text-2xl text-center font-bold">
-            Add Course
+            Ajouter un cours
           </DialogTitle>
           <DialogDescription className="text-center text-zinc-500">
-            Enter the course details
+            Détails du cours
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-8 px-6">
           <div>
-            <label className="block mb-2">Course Name</label>
+            <label className="block mb-2">Nom du cours</label>
             <Input
               {...register('courseName')}
               className="w-full mb-4"
-              placeholder="Enter course name"
+              placeholder="Entrez le nom du cours"
             />
             {errors.courseName && <p className="text-red-500">{errors.courseName.message}</p>}
           </div>
@@ -71,22 +71,22 @@ const CourseModal: React.FC<CourseModalProps> = ({ isOpen, onClose, onSave }) =>
             <Input
               {...register('credits')}
               className="w-full mb-4"
-              placeholder="Enter credits (1, 3, or 4)"
+              placeholder="Entrez le nombre de credits (1, 3, or 4)"
             />
             {errors.credits && <p className="text-red-500">{errors.credits.message}</p>}
           </div>
           <div>
-            <label className="block mb-2">Grade</label>
+            <label className="block mb-2">Note</label>
             <Input
               {...register('grade')}
               className="w-full mb-4"
-              placeholder="Enter grade (A, B, C, D, or E)"
+              placeholder="Entrez votre note (A, B, C, D, or E)"
             />
             {errors.grade && <p className="text-red-500">{errors.grade.message}</p>}
           </div>
           <DialogFooter className="px-6 py-4">
-            <Button variant="default" type="submit">Save Course</Button>
-            <Button variant="secondary" type="button" onClick={handleClose}>Cancel</Button>
+            <Button variant="default" type="submit">Ajouter</Button>
+            <Button variant="secondary" type="button" onClick={handleClose}>Annuler</Button>
           </DialogFooter>
         </form>
       </DialogContent>

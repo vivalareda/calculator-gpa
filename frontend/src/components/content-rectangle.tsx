@@ -9,12 +9,15 @@ import { Input } from './ui/input';
 import { formSchema, FormData, Course } from '../../types';
 import CourseModal from './modals/CourseModal';
 import NumberTicker from './magicui/number-ticker';
+
 const ContentRectangle = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [isVisible, setIsVisible] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [courses, setCourses] = useState<Course[]>([]);
-  const [gpa, setGpa] = useState(null);
+  const [gpa, setGpa] = useState<number | null>(null);
+  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+
 
   const { register, handleSubmit, formState: { errors }, watch } = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -27,7 +30,7 @@ const ContentRectangle = () => {
 
   const onSubmit = async (data: FormData) => {
     try {
-      await axios.post('http://localhost:5000/api/submit', data);
+      await axios.post(`${backendUrl}/api/submit`, data);
       handleNextStep();
     } catch (error) {
       console.error('Error submitting form data:', error);
@@ -62,7 +65,7 @@ const ContentRectangle = () => {
         courses: courses
       };
 
-      const response = await axios.post('http://localhost:5000/api/submit', data);
+      const response = await axios.post(`${backendUrl}/api/submit`, data);
       setGpa(response.data.new_gpa);
 
     } catch (error) {
@@ -84,7 +87,7 @@ const ContentRectangle = () => {
               className="w-2/4 mb-5"
               {...register('gpa', { valueAsNumber: true })}
             />
-            {errors.gpa && <p className="text-red-500">{String("errors.gpa.message")}</p>}
+            {errors.gpa && <p className="text-red-500">{errors.gpa.message}</p>}
             <ShimmerButton type="button" onClick={handleNextStep}>Next</ShimmerButton>
           </div>
         )}
@@ -95,15 +98,15 @@ const ContentRectangle = () => {
               className="w-2/4 mb-5"
               {...register('credits', { valueAsNumber: true })}
             />
-            {errors.credits && <p className="text-red-500">{String(errors.credits.message)}</p>}
+            {errors.credits && <p className="text-red-500">{errors.credits.message}</p>}
             <ShimmerButton type="button" onClick={handleNextStep}>Next</ShimmerButton>
           </div>
         )}
         {currentStep === 3 && (
           <div className={`absolute inset-0 flex flex-col items-center pt-2 transition-opacity duration-500 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
             <div className="mt-6 w-full">
-              <h2 className="text-xl font-bold mb-4 pb-10">Courses:</h2>
-              {courses.length === 0}
+              <h2 className="text-xl font-bold mb-4 pb-3">Courses:</h2>
+              {courses.length === 0 && <p>No courses added yet.</p>}
               {courses.map((course, index) => (
                 <div key={index} className="bg-gray-100 p-4 mb-2 rounded shadow">
                   <p><strong>Course Name:</strong> {course.courseName}</p>
@@ -112,9 +115,17 @@ const ContentRectangle = () => {
                 </div>
               ))}
             </div>
-            <div className='flex justify-center w-5/6 gap-16'>
-              <ShimmerButton type="button" className="w-1/5 items-center" onClick={() => setIsModalOpen(true)}>Add a course</ShimmerButton>
-              <ShimmerButton type='button' className="w-1/5 items-center" onClick={handleCalculateClick}>Calculate</ShimmerButton>
+            <div className='flex justify-center w-5/6 gap-16 pt-3'>
+              <ShimmerButton type="button" className="w-1/5 items-center pt-3" onClick={() => setIsModalOpen(true)}>Add a course</ShimmerButton>
+              {courses.length > 0 && (
+                <ShimmerButton
+                  type='button'
+                  className="w-1/5 items-center pt-3"
+                  onClick={handleCalculateClick}
+                >
+                  Calculate
+                </ShimmerButton>
+              )}
             </div>
             {gpa !== null && (
               <div className="mt-4 text-center">

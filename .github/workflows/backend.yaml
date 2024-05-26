@@ -5,7 +5,7 @@ on:
 
 jobs:
   call-build:
-    uses: vivalareda/calculator-gpa/.github/workflows/reusable-docker-build.yml@main
+    uses: vivalareda/calculator-gpa/.github/workflows/build-container.yaml@main
     with:
       container-name: backend
       tag: latest

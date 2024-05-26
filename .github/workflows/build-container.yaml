@@ -24,8 +24,6 @@ on:
         required: true
       REGISTRY_NAME:
         required: true
-      NEXT_PUBLIC_BACKEND_URL:
-        required: false
 
 jobs:
   build:

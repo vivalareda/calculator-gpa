@@ -1,0 +1,33 @@
+name: Reusable Docker Container Deployment to Google Cloud Run
+
+on:
+  workflow_call:
+    inputs:
+      container-name:
+        required: true
+        type: string
+      tag:
+        required: true
+        type: string
+    secrets:
+      GCP_CLOUDRUN_REGION:
+        required: true
+      GAR_JSON_KEY:
+        required: true
+      REGISTRY_NAME:
+        required: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v1
+        with:
+          credentials_json: ${{ secrets.GAR_JSON_KEY }}
+      - name: Deploy to Cloud Run
+        uses: google-github-actions/deploy-cloudrun@v1.0.2
+        with:
+          image: ${{ secrets.GCP_CLOUDRUN_REGION }}-docker.pkg.dev/${{ secrets.REGISTRY_NAME }}/${{ inputs.container-name }}:${{ inputs.tag }}
+          service: ${{ inputs.container-name }}
+          region: ${{ secrets.GCP_CLOUDRUN_REGION }}

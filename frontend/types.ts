@@ -1,7 +1,5 @@
 import * as z from 'zod';
 
-import * as z from 'zod';
-
 export const formSchema = z.object({
   gpa: z
     .number({ invalid_type_error: "Please enter a number between 0 and 4" })

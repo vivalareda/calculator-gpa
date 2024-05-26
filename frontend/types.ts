@@ -1,14 +1,18 @@
 import * as z from 'zod';
 
+import * as z from 'zod';
+
 export const formSchema = z.object({
   gpa: z
-    .number()
+    .number({ invalid_type_error: "Please enter a number between 0 and 4" })
     .min(0, { message: "GPA must be at least 0." })
-    .max(4, { message: "GPA must be at most 4." }),
+    .max(4, { message: "GPA must be at most 4." })
+    .refine(value => !isNaN(value), { message: "Please enter a number between 0 and 4" }),
   credits: z
-    .number()
+    .number({ invalid_type_error: "Please enter a number" })
     .int({ message: "Credits must be an integer." })
     .positive({ message: "Credits must be positive." })
+    .refine(value => !isNaN(value), { message: "Please enter a number" })
 });
 
 export const courseSchema = z.object({

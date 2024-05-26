@@ -18,7 +18,6 @@ const ContentRectangle = () => {
   const [gpa, setGpa] = useState<number | null>(null);
   const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
-
   const { register, handleSubmit, formState: { errors }, watch } = useForm<FormData>({
     resolver: zodResolver(formSchema),
     mode: "onBlur",
@@ -87,7 +86,7 @@ const ContentRectangle = () => {
               className="w-2/4 mb-5"
               {...register('gpa', { valueAsNumber: true })}
             />
-            {errors.gpa && <p className="text-red-500">{errors.gpa.message}</p>}
+            {errors.gpa && <p className="text-red-500 pb-2">{errors.gpa.message}</p>}
             <ShimmerButton type="button" onClick={handleNextStep}>Next</ShimmerButton>
           </div>
         )}
@@ -98,7 +97,7 @@ const ContentRectangle = () => {
               className="w-2/4 mb-5"
               {...register('credits', { valueAsNumber: true })}
             />
-            {errors.credits && <p className="text-red-500">{errors.credits.message}</p>}
+            {errors.credits && <p className="text-red-500 pb-2">{errors.credits.message}</p>}
             <ShimmerButton type="button" onClick={handleNextStep}>Next</ShimmerButton>
           </div>
         )}

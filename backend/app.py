@@ -21,18 +21,17 @@ def calculate_gpa(current_gpa, current_credits, new_courses):
     total_credits = int(current_credits)
 
     grade_points = {
-        'A': 4,
-        'B': 3,
-        'C': 2,
-        'D': 1,
-        'E': 0
+        'A+': 4.3, 'A': 4.0, 'A-': 3.7,
+        'B+': 3.3, 'B': 3.0, 'B-': 2.7,
+        'C+': 2.3, 'C': 2.0, 'C-': 1.7,
+        'D+': 1.3, 'D': 1.0, 'E': 0.0
     }
 
     for course in new_courses:
         grade = course['grade']
-        credits = int(course['credits'])
-        total_quality_points += grade_points[grade] * credits
-        total_credits += credits
+        current_credits = int(course['credits'])
+        total_quality_points += grade_points[grade] * current_credits
+        total_credits += current_credits
 
     if total_credits == 0:
         return 0

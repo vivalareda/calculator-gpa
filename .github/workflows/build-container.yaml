@@ -63,6 +63,7 @@ jobs:
           tags: ${{ secrets.GCP_CLOUDRUN_REGION }}-docker.pkg.dev/${{ secrets.REGISTRY_NAME }}/${{ inputs.container-name }}:${{ inputs.tag }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
+          platforms: linux/amd64 # Add this line to specify the platform
 
       # Cleanup and move cache for future builds
       - name: Move cache

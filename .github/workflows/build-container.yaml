@@ -24,8 +24,6 @@ on:
         required: true
       REGISTRY_NAME:
         required: true
-      NEXT_PUBLIC_BACKEND_URL:
-        required: true
 
 jobs:
   build:
@@ -61,13 +59,10 @@ jobs:
         with:
           context: ${{ inputs.context-path }}
           push: true
-          build-args: |
-            ${{ secrets.NEXT_PUBLIC_BACKEND_URL }}
-            ${{ inputs.build-args }}
+          build-args: ${{ inputs.build-args }}
           tags: ${{ secrets.GCP_CLOUDRUN_REGION }}-docker.pkg.dev/${{ secrets.REGISTRY_NAME }}/${{ inputs.container-name }}:${{ inputs.tag }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
-          platforms: linux/amd64 # Add this line to specify the platform
 
       # Cleanup and move cache for future builds
       - name: Move cache

@@ -13,6 +13,10 @@ RUN npm install
 # Copy the rest of the application code
 COPY . .
 
+# Set environment variables
+ARG NEXT_PUBLIC_BACKEND_URL
+ENV NEXT_PUBLIC_BACKEND_URL=$NEXT_PUBLIC_BACKEND_URL
+
 # Build the application
 RUN npm run build
 

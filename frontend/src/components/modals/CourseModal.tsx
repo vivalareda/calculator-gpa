@@ -80,7 +80,7 @@ const CourseModal: React.FC<CourseModalProps> = ({ isOpen, onClose, onSave }) =>
             <Input
               {...register('grade')}
               className="w-full mb-4"
-              placeholder="Entrez votre note (A, B, C, D, or E)"
+              placeholder="Entrez votre note (A, B, C, D, ou E)"
             />
             {errors.grade && <p className="text-red-500">{errors.grade.message}</p>}
           </div>

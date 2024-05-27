@@ -9,6 +9,14 @@ import { Input } from './ui/input';
 import { formSchema, FormData, Course } from '../../types';
 import CourseModal from './modals/CourseModal';
 import NumberTicker from './magicui/number-ticker';
+import { IoIosInformationCircleOutline } from "react-icons/io";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { Button } from './ui/button';
 
 const ContentRectangle = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -55,7 +63,7 @@ const ContentRectangle = () => {
       const currentCredits = watch('credits');
 
       if (currentGpa === undefined || currentCredits === undefined) {
-        alert('Veuillez entrez votre côte et le nombre de crédits complétés.');
+        alert('Veuillez entrer votre cote et le nombre de crédits complétés.');
         return;
       }
 
@@ -82,7 +90,23 @@ const ContentRectangle = () => {
       <form onSubmit={handleSubmit(onSubmit)} className="relative h-full transition-all duration-500">
         {currentStep === 1 && (
           <div className={`absolute inset-0 flex flex-col items-center pt-44 transition-opacity duration-500 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
-            <p className='pb-3'>Entrez votre cote actuelle</p>
+            <div className='flex flex-row items-center pb-3'>
+              <p>Entrez votre cote actuelle</p>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <div className='ml-2 cursor-pointer'>
+                      <Button variant="secondary" className="p-1 text-xs w-6 h-6 flex items-center justify-center rounded-full pointer-events-none">
+                        i
+                      </Button>
+                    </div>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Vous pouvez trouver votre cote sur l'application mobile ou signets</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </div>
             <Input
               className="w-2/4 mb-5"
               {...register('gpa', { valueAsNumber: true })}

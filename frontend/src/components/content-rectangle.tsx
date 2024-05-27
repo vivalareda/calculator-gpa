@@ -63,7 +63,7 @@ const ContentRectangle = () => {
       const currentCredits = watch('credits');
 
       if (currentGpa === undefined || currentCredits === undefined) {
-        alert('Veuillez entrer votre cote et le nombre de crédits complétés.');
+        alert('Veuillez entrer votre côte et le nombre de crédits complétés.');
         return;
       }
 
@@ -91,7 +91,7 @@ const ContentRectangle = () => {
         {currentStep === 1 && (
           <div className={`absolute inset-0 flex flex-col items-center pt-44 transition-opacity duration-500 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
             <div className='flex flex-row items-center pb-3'>
-              <p>Entrez votre cote actuelle</p>
+              <p>Entrez votre côte actuelle</p>
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
@@ -102,7 +102,7 @@ const ContentRectangle = () => {
                     </div>
                   </TooltipTrigger>
                   <TooltipContent>
-                    <p>Vous pouvez trouver votre cote sur l'application mobile ou signets</p>
+                    <p>Vous pouvez trouver votre côte sur l&apos;application mobile ou signets</p>
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>

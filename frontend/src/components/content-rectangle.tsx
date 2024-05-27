@@ -9,7 +9,6 @@ import { Input } from './ui/input';
 import { formSchema, FormData, Course } from '../../types';
 import CourseModal from './modals/CourseModal';
 import NumberTicker from './magicui/number-ticker';
-import { IoIosInformationCircleOutline } from "react-icons/io";
 import {
   Tooltip,
   TooltipContent,

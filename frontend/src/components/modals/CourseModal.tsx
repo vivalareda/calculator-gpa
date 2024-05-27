@@ -86,7 +86,13 @@ const CourseModal: React.FC<CourseModalProps> = ({ isOpen, onClose, onSave }) =>
           </div>
           <DialogFooter className="px-6 py-4">
             <Button variant="default" type="submit">Ajouter</Button>
-            <Button variant="secondary" type="button" onClick={handleClose}>Annuler</Button>
+            <Button
+              variant="secondary"
+              type="button"
+              onClick={handleClose}
+              >
+                Annuler
+              </Button>
           </DialogFooter>
         </form>
       </DialogContent>

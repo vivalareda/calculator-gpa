@@ -59,7 +59,9 @@ jobs:
         with:
           context: ${{ inputs.context-path }}
           push: true
-          build-args: ${{ inputs.build-args }}
+          build-args: |
+            ${{ secrets.NEXT_PUBLIC_BACKEND_URL }}
+            ${{ inputs.build-args }}
           tags: ${{ secrets.GCP_CLOUDRUN_REGION }}-docker.pkg.dev/${{ secrets.REGISTRY_NAME }}/${{ inputs.container-name }}:${{ inputs.tag }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new

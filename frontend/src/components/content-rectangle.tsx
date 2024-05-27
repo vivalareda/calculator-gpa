@@ -17,6 +17,7 @@ const ContentRectangle = () => {
   const [courses, setCourses] = useState<Course[]>([]);
   const [gpa, setGpa] = useState<number | null>(null);
   const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+  console.log('Backend URL:', backendUrl);
 
   const { register, handleSubmit, formState: { errors }, watch } = useForm<FormData>({
     resolver: zodResolver(formSchema),

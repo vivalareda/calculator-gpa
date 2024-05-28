@@ -95,7 +95,7 @@ const ContentRectangle = () => {
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <div className='ml-2 cursor-pointer'>
-                      <Button variant="secondary" className="p-1 text-xs w-6 h-6 flex items-center justify-center rounded-full pointer-events-none">
+                      <Button variant="secondary" className=" pp-1 text-xs w-6 h-6 flex items-center justify-center rounded-full" disabled>
                         i
                       </Button>
                     </div>
@@ -116,7 +116,7 @@ const ContentRectangle = () => {
         )}
         {currentStep === 2 && (
           <div className={`absolute inset-0 flex flex-col items-center pt-44 transition-opacity duration-500 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
-            <p className='pb-3'>Entrez le nombre de crédit complété</p>
+            <p className='pb-3'>Entrez le nombre de crédits complété</p>
             <Input
               className="w-2/4 mb-5"
               {...register('credits', { valueAsNumber: true })}
@@ -133,7 +133,7 @@ const ContentRectangle = () => {
               {courses.map((course, index) => (
                 <div key={index} className="bg-gray-100 p-4 mb-2 rounded shadow">
                   <p><strong>Nom du cours:</strong> {course.courseName}</p>
-                  <p><strong>Credits:</strong> {course.credits}</p>
+                  <p><strong>Crédits:</strong> {course.credits}</p>
                   <p><strong>Note:</strong> {course.grade}</p>
                 </div>
               ))}
@@ -152,7 +152,7 @@ const ContentRectangle = () => {
             </div>
             {gpa !== null && (
               <div className="mt-4 text-center">
-                <h3 className="text-xl font-bold">Votre GPA: <NumberTicker value={gpa} /></h3>
+                <h3 className="text-xl font-bold">Votre côte: <NumberTicker value={gpa} /></h3>
               </div>
             )}
           </div>

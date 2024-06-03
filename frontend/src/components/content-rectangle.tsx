@@ -16,6 +16,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Button } from './ui/button';
+import CourseComponent from './course-component';
 
 const ContentRectangle = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -131,10 +132,13 @@ const ContentRectangle = () => {
               <h2 className="text-xl font-bold mb-4 pb-3">Cours:</h2>
               {courses.length === 0 && <p>Aucun cours ajouté.</p>}
               {courses.map((course, index) => (
-                <div key={index} className="bg-gray-100 p-4 mb-2 rounded shadow">
-                  <p><strong>Nom du cours:</strong> {course.courseName}</p>
-                  <p><strong>Crédits:</strong> {course.credits}</p>
-                  <p><strong>Note:</strong> {course.grade}</p>
+                <div className="bg-gray-100 p-4 mb-2 rounded shadow">
+                  <CourseComponent
+                    id={index}
+                    name={course.courseName}
+                    credits={course.credits}
+                    grade={course.grade}
+                  />
                 </div>
               ))}
             </div>

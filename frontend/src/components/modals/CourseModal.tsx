@@ -62,7 +62,7 @@ const CourseModal: React.FC<CourseModalProps> = ({ isOpen, onClose, onSave }) =>
             <Input
               {...register('courseName')}
               className="w-full mb-4"
-              placeholder="Entrez le nom du cours"
+              placeholder="Ex.: MAT145"
             />
             {errors.courseName && <p className="text-red-500">{errors.courseName.message}</p>}
           </div>
@@ -71,7 +71,7 @@ const CourseModal: React.FC<CourseModalProps> = ({ isOpen, onClose, onSave }) =>
             <Input
               {...register('credits')}
               className="w-full mb-4"
-              placeholder="Entrez le nombre de credits (1, 3, or 4)"
+              placeholder="Ex.: 4"
             />
             {errors.credits && <p className="text-red-500">{errors.credits.message}</p>}
           </div>
@@ -80,7 +80,7 @@ const CourseModal: React.FC<CourseModalProps> = ({ isOpen, onClose, onSave }) =>
             <Input
               {...register('grade')}
               className="w-full mb-4"
-              placeholder="Entrez votre note (A, B, C, D, ou E)"
+              placeholder="Ex.: B-"
             />
             {errors.grade && <p className="text-red-500">{errors.grade.message}</p>}
           </div>

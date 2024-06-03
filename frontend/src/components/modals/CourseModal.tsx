@@ -10,9 +10,10 @@ interface CourseModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSave: (data: Course) => void;
+  initialData?: Course;
 }
 
-const CourseModal: React.FC<CourseModalProps> = ({ isOpen, onClose, onSave }) => {
+const CourseModal: React.FC<CourseModalProps> = ({ isOpen, onClose, onSave, initialData }) => {
   const { register, handleSubmit, formState: { errors }, reset } = useForm<Course>({
     resolver: zodResolver(courseSchema),
     defaultValues: {
@@ -21,6 +22,12 @@ const CourseModal: React.FC<CourseModalProps> = ({ isOpen, onClose, onSave }) =>
       grade: undefined
     }
   });
+
+  useEffect(() => {
+    if (isOpen && initialData) {
+      reset(initialData);
+    }
+  }, [isOpen, initialData, reset]);
 
   const [visible, setVisible] = useState(isOpen);
 

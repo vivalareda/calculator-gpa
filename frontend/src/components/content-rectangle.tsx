@@ -9,14 +9,14 @@ import { Input } from './ui/input';
 import { formSchema, FormData, Course } from '../../types';
 import CourseModal from './modals/CourseModal';
 import NumberTicker from './magicui/number-ticker';
+import { Button } from './ui/button';
+import CourseComponent from './course-component';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Button } from './ui/button';
-import CourseComponent from './course-component';
 
 const ContentRectangle = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -24,6 +24,7 @@ const ContentRectangle = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [courses, setCourses] = useState<Course[]>([]);
   const [gpa, setGpa] = useState<number | null>(null);
+  const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
   const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
   console.log('Backend URL: ', backendUrl);
 
@@ -51,6 +52,21 @@ const ContentRectangle = () => {
       setCurrentStep((prevStep) => prevStep + 1);
       setIsVisible(true);
     }, 500);
+  };
+
+  const handleEditCourse = (course: Course) => {
+    setSelectedCourse(course);
+    setIsModalOpen(true);
+  };
+
+  const handleSaveCourse = (updatedCourse: Course) => {
+    setCourses((prevCourses) =>
+      prevCourses.map((course) =>
+        course.courseName === updatedCourse.courseName ? updatedCourse : course
+      )
+    );
+    setIsModalOpen(false);
+    setSelectedCourse(null);
   };
 
   const handleAddCourse = (course: Course) => {
@@ -96,7 +112,7 @@ const ContentRectangle = () => {
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <div className='ml-2 cursor-pointer'>
-                      <Button variant="secondary" className=" pp-1 text-xs w-6 h-6 flex items-center justify-center rounded-full" disabled>
+                      <Button variant="secondary" className="p-1 text-xs w-6 h-6 flex items-center justify-center rounded-full" disabled>
                         i
                       </Button>
                     </div>
@@ -132,7 +148,7 @@ const ContentRectangle = () => {
               <h2 className="text-xl font-bold mb-4 pb-3">Cours:</h2>
               {courses.length === 0 && <p>Aucun cours ajouté.</p>}
               {courses.map((course, index) => (
-                <div key={index} className="bg-gray-100 p-4 mb-2 rounded shadow">
+                <div key={index} className="bg-gray-100 p-4 mb-2 rounded">
                   <CourseComponent
                     name={course.courseName}
                     credits={course.credits}
@@ -142,7 +158,7 @@ const ContentRectangle = () => {
               ))}
             </div>
             <div className='flex justify-center w-5/6 gap-16 pt-3'>
-              <ShimmerButton type="button" className="w-1/5 items-center pt-3" onClick={() => setIsModalOpen(true)}>Ajouter un cours</ShimmerButton>
+              <ShimmerButton type="button" className="w-1/5 items-center pt-3" onClick={() => setIsModalOpen(true)}>Ajout cours</ShimmerButton>
               {courses.length > 0 && (
                 <ShimmerButton
                   type='button'

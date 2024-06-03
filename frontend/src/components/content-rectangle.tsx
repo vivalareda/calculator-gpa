@@ -134,10 +134,10 @@ const ContentRectangle = () => {
               {courses.map((course, index) => (
                 <div className="bg-gray-100 p-4 mb-2 rounded shadow">
                   <CourseComponent
-                    id={index}
+                    key={index}
                     name={course.courseName}
                     credits={course.credits}
-                    grade={course.grade}
+                    grade={course.grade} id={0}
                   />
                 </div>
               ))}

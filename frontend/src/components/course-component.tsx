@@ -1,9 +1,8 @@
 
 interface CourseProps {
-    id: number
-    name?: string
-    credits?: string
-    grade?: string
+    name?: string;
+    credits?: string;
+    grade?: string;
 }
 
 const CourseComponent = ({name, credits, grade}:CourseProps) => {

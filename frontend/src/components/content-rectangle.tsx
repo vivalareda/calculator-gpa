@@ -132,13 +132,12 @@ const ContentRectangle = () => {
               <h2 className="text-xl font-bold mb-4 pb-3">Cours:</h2>
               {courses.length === 0 && <p>Aucun cours ajouté.</p>}
               {courses.map((course, index) => (
-                <div className="bg-gray-100 p-4 mb-2 rounded shadow">
+                <div key={index} className="bg-gray-100 p-4 mb-2 rounded shadow">
                   <CourseComponent
-                    key={index}
                     name={course.courseName}
                     credits={course.credits}
-                    grade={course.grade} id={0}
-                  />
+                    grade={course.grade}
+                    />
                 </div>
               ))}
             </div>

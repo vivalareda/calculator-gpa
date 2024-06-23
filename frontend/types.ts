@@ -1,5 +1,12 @@
 import * as z from 'zod';
 
+export type Course = {
+  uuid: string;
+  courseName: string;
+  credits: string;
+  grade: string;
+}
+
 export const formSchema = z.object({
   gpa: z
     .number({ invalid_type_error: "Please enter a number between 0 and 4.3" })
@@ -13,7 +20,21 @@ export const formSchema = z.object({
     .refine(value => !isNaN(value), { message: "Please enter a number" })
 });
 
-export const courseSchema = z.object({
+export const createCourseSchema = (courses: Course[]) => z.object({
+  courseName: z.string().min(1, { message: "Course name is required." })
+  .refine(courseName => !courses.some(course => course.courseName === courseName),
+  { message: "Ce cours existe déjà." }),
+  credits: z.union([z.literal('1'), z.literal('3'), z.literal('4')]).optional(),
+  grade: z.union([
+    z.literal('A+'), z.literal('A'), z.literal('A-'),
+    z.literal('B+'), z.literal('B'), z.literal('B-'),
+    z.literal('C+'), z.literal('C'), z.literal('C-'),
+    z.literal('D+'), z.literal('D'),
+    z.literal('E')
+  ]).optional()
+});
+
+export const editCourseSchema = () => z.object({
   courseName: z.string().min(1, { message: "Course name is required." }),
   credits: z.union([z.literal('1'), z.literal('3'), z.literal('4')]).optional(),
   grade: z.union([
@@ -26,4 +47,3 @@ export const courseSchema = z.object({
 });
 
 export type FormData = z.infer<typeof formSchema>;
-export type Course = z.infer<typeof courseSchema>;

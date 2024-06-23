@@ -20,6 +20,13 @@ export const formSchema = z.object({
     .refine(value => !isNaN(value), { message: "Please enter a number" })
 });
 
+export const CourseSchema = z.object({
+  uuid: z.string(),
+  courseName: z.string(),
+  credits: z.string(),
+  grade: z.string(),
+});
+
 export const createCourseSchema = (courses: Course[]) => z.object({
   courseName: z.string().min(1, { message: "Course name is required." })
   .refine(courseName => !courses.some(course => course.courseName === courseName),

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '../ui/dialog';
@@ -15,9 +15,9 @@ interface EditCourseModalProps {
   courseToModify: Course | null | undefined;
 }
 
-const EditCourseModal: React.FC<EditCourseModalProps> = ({ isOpen, onClose, onSave }) => {
+const EditCourseModal: React.FC<EditCourseModalProps> = ({ isOpen, onClose }) => {
 
-  const { courses, updateCourse } = useCourseStore();
+  const { updateCourse } = useCourseStore();
   const formSchema = editCourseSchema();
   const courseToModify = useCourseToModify();
 

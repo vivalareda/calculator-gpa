@@ -1,6 +1,7 @@
 import useModalStore from "../../hooks/useModalStore";
 import { useCourseToModify } from "../../hooks/courseToModify";
 import useCourseStore from "../../hooks/useCourseStore";
+import { Button } from "./ui/button";
 
 interface CourseProps {
   name?: string;
@@ -20,22 +21,26 @@ const CourseComponent = ({ name, credits, grade }: CourseProps) => {
         openModal("editCourse", name);
       }
     });
-  }
+  };
 
   return (
-    <div>
-      <p>
-        <strong>Nom du cours:</strong> {name}
-      </p>
-      <p>
-        <strong>Crédits:</strong> {credits}
-      </p>
-      <p>
-        <strong>Note:</strong> {grade}
-      </p>
-      <button onClick={() => { handleCourseEditClick(name); }}>
-        Editer
-      </button>
+    <div className="flex justify-between items-center">
+      <div>
+        <p>
+          <strong>Nom du cours:</strong> {name}
+        </p>
+        <p>
+          <strong>Crédits:</strong> {credits}
+        </p>
+        <p>
+          <strong>Note:</strong> {grade}
+        </p>
+      </div>
+      <div>
+        <Button variant="secondary" type="button" onClick={() => handleCourseEditClick(name)} className="mt-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-300">
+          Editer
+        </Button>
+      </div>
     </div>
   );
 };

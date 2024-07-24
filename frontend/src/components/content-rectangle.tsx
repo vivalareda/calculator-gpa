@@ -29,9 +29,44 @@ const ContentRectangle = () => {
   const { courses, addCourse } = useCourseStore();
   const { isModalOpen, openModal, closeModal, modalType } = useModalStore();
   const { courseToModify } = useCourseToModify();
-
   const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
+  const course1: Course = {
+    uuid: "1",
+    courseName: "GT611",
+    credits: "4",
+    grade: "B"
+  }
+  const course2: Course = {
+    uuid: "2",
+    courseName: "GT619",
+    credits: "4",
+    grade: "B"
+  }
+  const course3: Course = {
+    uuid: "3",
+    courseName: "GT613",
+    credits: "4",
+    grade: "B"
+  }
+  const course4: Course = {
+    uuid: "4",
+    courseName: "GT614",
+    credits: "4",
+    grade: "B"
+  }
+  const course5: Course = {
+    uuid: "5",
+    courseName: "GT615",
+    credits: "4",
+    grade: "B"
+  }
+  const course6: Course = {
+    uuid: "6",
+    courseName: "GT618",
+    credits: "4",
+    grade: "B"
+  }
 
   const {
     register,
@@ -68,6 +103,12 @@ const ContentRectangle = () => {
   };
 
   const handleAddCourse = (course: Course) => {
+    addCourse(course1);
+    addCourse(course2);
+    addCourse(course3);
+    addCourse(course4);
+    addCourse(course5);
+    addCourse(course6);
     addCourse(course);
   };
 
@@ -102,9 +143,8 @@ const ContentRectangle = () => {
       >
         {currentStep === 1 && (
           <div
-            className={`absolute inset-0 flex flex-col items-center pt-44 transition-opacity duration-500 ${
-              isVisible ? "opacity-100" : "opacity-0"
-            }`}
+            className={`absolute inset-0 flex flex-col items-center pt-44 transition-opacity duration-500 ${isVisible ? "opacity-100" : "opacity-0"
+              }`}
           >
             <div className="flex flex-row items-center pb-3">
               <p>Entrez votre côte actuelle</p>
@@ -144,9 +184,8 @@ const ContentRectangle = () => {
         )}
         {currentStep === 2 && (
           <div
-            className={`absolute inset-0 flex flex-col items-center pt-44 transition-opacity duration-500 ${
-              isVisible ? "opacity-100" : "opacity-0"
-            }`}
+            className={`absolute inset-0 flex flex-col items-center pt-44 transition-opacity duration-500 ${isVisible ? "opacity-100" : "opacity-0"
+              }`}
           >
             <p className="pb-3">Entrez le nombre de crédits complété</p>
             <Input
@@ -163,27 +202,28 @@ const ContentRectangle = () => {
         )}
         {currentStep === 3 && (
           <div
-            className={`absolute inset-0 flex flex-col items-center pt-2 transition-opacity duration-500 ${
-              isVisible ? "opacity-100" : "opacity-0"
-            }`}
+            className={`absolute inset-0 h-screen flex flex-col items-center pt-2 transition-opacity duration-500 ${isVisible ? "opacity-100" : "opacity-0"
+              }`}
           >
             <div className="mt-6 w-full">
               <h2 className="text-xl font-bold mb-4 pb-3">Cours:</h2>
-              {courses.length === 0 && <p>Aucun cours ajouté.</p>}
-              {courses.map((course, index) => (
-                <div
-                  key={index}
-                  className="bg-gray-100 p-4 mb-2 rounded shadow"
-                >
-                  <CourseComponent
-                    name={course.courseName}
-                    credits={course.credits}
-                    grade={course.grade}
-                  />
-                </div>
-              ))}
+              <div className="h-auto min-h-[10rem] max-h-[55vh] w-full overflow-auto">
+                {courses.length === 0 && <p>Aucun cours ajouté.</p>}
+                {courses.map((course, index) => (
+                  <div
+                    key={index}
+                    className="bg-gray-100 p-4 mb-2 rounded shadow"
+                  >
+                    <CourseComponent
+                      name={course.courseName}
+                      credits={course.credits}
+                      grade={course.grade}
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
-            <div className="flex justify-center w-5/6 gap-16 pt-3">
+            <div className="flex justify-center w-5/6 gap-16 pt-8">
               <ShimmerButton
                 type="button"
                 className="w-1/5 items-center pt-3"

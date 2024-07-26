@@ -31,43 +31,6 @@ const ContentRectangle = () => {
   const { courseToModify } = useCourseToModify();
   const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
-  const course1: Course = {
-    uuid: "1",
-    courseName: "GT611",
-    credits: "4",
-    grade: "B"
-  }
-  const course2: Course = {
-    uuid: "2",
-    courseName: "GT619",
-    credits: "4",
-    grade: "B"
-  }
-  const course3: Course = {
-    uuid: "3",
-    courseName: "GT613",
-    credits: "4",
-    grade: "B"
-  }
-  const course4: Course = {
-    uuid: "4",
-    courseName: "GT614",
-    credits: "4",
-    grade: "B"
-  }
-  const course5: Course = {
-    uuid: "5",
-    courseName: "GT615",
-    credits: "4",
-    grade: "B"
-  }
-  const course6: Course = {
-    uuid: "6",
-    courseName: "GT618",
-    credits: "4",
-    grade: "B"
-  }
-
   const {
     register,
     handleSubmit,
@@ -103,12 +66,6 @@ const ContentRectangle = () => {
   };
 
   const handleAddCourse = (course: Course) => {
-    addCourse(course1);
-    addCourse(course2);
-    addCourse(course3);
-    addCourse(course4);
-    addCourse(course5);
-    addCourse(course6);
     addCourse(course);
   };
 

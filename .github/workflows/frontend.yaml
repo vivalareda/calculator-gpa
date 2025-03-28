@@ -18,7 +18,7 @@ jobs:
       GCP_CLOUDRUN_REGION: ${{ secrets.GCP_CLOUDRUN_REGION }}
       GAR_JSON_KEY: ${{ secrets.GAR_JSON_KEY }}
       REGISTRY_NAME: ${{ secrets.REGISTRY_NAME }}
-      NEXT_PUBLIC_BACKEND_URL: ${{ secrets.NEXT_PUBLIC_BACKEND_URL }}
+      NEXT_PUBLIC_POSTHOG_KEY: ${{ secrets.NEXT_PUBLIC_POSTHOG_KEY }}
 
   deploy-frontend:
     needs: build-frontend

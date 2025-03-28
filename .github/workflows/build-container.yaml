@@ -1,5 +1,4 @@
 name: Reusable Docker Container Build
-
 on:
   workflow_call:
     inputs:
@@ -24,9 +23,8 @@ on:
         required: true
       REGISTRY_NAME:
         required: true
-      NEXT_PUBLIC_BACKEND_URL:
-        required: false
-
+      NEXT_PUBLIC_POSTHOG_KEY:
+        required: true
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -37,12 +35,9 @@ jobs:
           registry: ${{ secrets.GCP_CLOUDRUN_REGION }}-docker.pkg.dev
           username: _json_key
           password: ${{ secrets.GAR_JSON_KEY }}
-
       - uses: actions/checkout@v3
-
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
-
       - name: Cache Docker layers
         uses: actions/cache@v4
         with:
@@ -50,7 +45,6 @@ jobs:
           key: ${{ runner.os }}-${{ inputs.container-name }}-${{ github.sha }}
           restore-keys: |
             ${{ runner.os }}-${{ inputs.container-name }}
-
       - name: Build the Docker image
         uses: docker/build-push-action@v4
         with:
@@ -62,7 +56,6 @@ jobs:
           tags: ${{ secrets.GCP_CLOUDRUN_REGION }}-docker.pkg.dev/${{ secrets.REGISTRY_NAME }}/${{ inputs.container-name }}:${{ inputs.tag }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
-
       - name: Move cache
         run: |
           rm -rf /tmp/.buildx-cache

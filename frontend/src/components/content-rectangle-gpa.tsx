@@ -1,8 +1,7 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import ShimmerButton from "./magicui/shimmer-button";
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Input } from "./ui/input";
 import { formSchema, FormData, Course } from "../../types";
@@ -28,11 +27,9 @@ const ContentRectangleGpa = () => {
   const { courses, addCourse } = useCourseStore();
   const { isModalOpen, openModal, closeModal, modalType } = useModalStore();
   const { courseToModify } = useCourseToModify();
-  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
   const {
     register,
-    handleSubmit,
     formState: { errors },
     watch,
   } = useForm<FormData>({
@@ -44,15 +41,7 @@ const ContentRectangleGpa = () => {
     },
   });
 
-  const onSubmit = async (data: FormData) => {
-    try {
-      await axios.post(`${backendUrl}/api/submit`, data);
-    } catch (error) {
-      console.error("Error submitting form data:", error);
-    }
-  };
-
-  const handleOnSaveEditCourse = (course: Course) => {
+  const handleOnSaveEditCourse = () => {
     closeModal();
   };
 
@@ -117,10 +106,7 @@ const ContentRectangleGpa = () => {
 
   return (
     <div className="w-full md:w-3/5 h-screen bg-white absolute right-0 shadow-2xl flex items-center justify-center">
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="relative h-full w-full flex justify-center items-center"
-      >
+      <form className="relative h-full w-full flex justify-center items-center">
         {currentStep === 1 && (
           <div
             className={`absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-500 ${

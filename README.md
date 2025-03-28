@@ -28,17 +28,18 @@ This project is a GPA calculator web application that allows students to enter t
    ```
 
 2. Install dependencies:
-    ```bash
-    npm install
-    ```
+
+   ```bash
+   npm install
+   ```
 
 3. Run the frontend server:
-    ```bash
-    npm run dev
-    ```
+
+   ```bash
+   npm run dev
+   ```
 
 4. The frontend should now be running at http://localhost:3000
-
 
 ### Backend
 
@@ -49,19 +50,22 @@ This project is a GPA calculator web application that allows students to enter t
    ```
 
 2. Create and activate a virtual environment:
-    ```bash
-    python -m venv venv
-    source venv/bin/activate
-    ```
+
+   ```bash
+   python -m venv venv
+   source venv/bin/activate
+   ```
 
 3. Install dependencies:
-    ```bash
-    pip install -r requirements.txt
-    ```
+
+   ```bash
+   pip install -r requirements.txt
+   ```
 
 4. Run the Flask server:
-    ```bash
-    python app.py
-    ```
+
+   ```bash
+   python app.py
+   ```
 
 5. The backend should now be running at http://localhost:5001

@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   frontend:
@@ -6,6 +6,9 @@ services:
       context: ./frontend
     ports:
       - "3000:3000"
+    environment:
+      NEXT_PUBLIC_BACKEND_URL: "http://backend:8080" # Note backend is running on 8080
+      PORT: 3000 # Add this line to set the PORT environment variable
     depends_on:
       - backend
 
@@ -13,6 +16,6 @@ services:
     build:
       context: ./backend
     ports:
-      - "5000:5000"
+      - "5001:5001"
     environment:
       FLASK_ENV: development

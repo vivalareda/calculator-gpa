@@ -22,7 +22,7 @@ import useCourseStore from "../../hooks/useCourseStore";
 import useModalStore from "../../hooks/useModalStore";
 import { useCourseToModify } from "../../hooks/courseToModify";
 
-const ContentRectangle = () => {
+const ContentRectangleGpa = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [isVisible, setIsVisible] = useState(true);
   const [gpa, setGpa] = useState<number | null>(null);
@@ -100,8 +100,9 @@ const ContentRectangle = () => {
       >
         {currentStep === 1 && (
           <div
-            className={`absolute inset-0 flex flex-col items-center pt-44 transition-opacity duration-500 ${isVisible ? "opacity-100" : "opacity-0"
-              }`}
+            className={`absolute inset-0 flex flex-col items-center pt-44 transition-opacity duration-500 ${
+              isVisible ? "opacity-100" : "opacity-0"
+            }`}
           >
             <div className="flex flex-row items-center pb-3">
               <p>Entrez votre côte actuelle</p>
@@ -141,8 +142,9 @@ const ContentRectangle = () => {
         )}
         {currentStep === 2 && (
           <div
-            className={`absolute inset-0 flex flex-col items-center pt-44 transition-opacity duration-500 ${isVisible ? "opacity-100" : "opacity-0"
-              }`}
+            className={`absolute inset-0 flex flex-col items-center pt-44 transition-opacity duration-500 ${
+              isVisible ? "opacity-100" : "opacity-0"
+            }`}
           >
             <p className="pb-3">Entrez le nombre de crédits complété</p>
             <Input
@@ -159,8 +161,9 @@ const ContentRectangle = () => {
         )}
         {currentStep === 3 && (
           <div
-            className={`absolute inset-0 h-screen flex flex-col items-center pt-2 transition-opacity duration-500 ${isVisible ? "opacity-100" : "opacity-0"
-              }`}
+            className={`absolute inset-0 h-screen flex flex-col items-center pt-2 transition-opacity duration-500 ${
+              isVisible ? "opacity-100" : "opacity-0"
+            }`}
           >
             <div className="mt-6 w-full">
               <h2 className="text-xl font-bold mb-4 pb-3">Cours:</h2>
@@ -227,4 +230,4 @@ const ContentRectangle = () => {
   );
 };
 
-export default ContentRectangle;
+export default ContentRectangleGpa;

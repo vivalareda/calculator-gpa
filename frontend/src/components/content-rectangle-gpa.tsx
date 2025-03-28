@@ -1,8 +1,7 @@
 "use client";
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import ShimmerButton from "./magicui/shimmer-button";
-import React, { useState, useEffect, use } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import { Input } from "./ui/input";
@@ -73,18 +72,15 @@ const ContentRectangleGpa = () => {
     try {
       const currentGpa = watch("gpa");
       const currentCredits = watch("credits");
-
       if (currentGpa === undefined || currentCredits === undefined) {
         alert("Veuillez entrer votre côte et le nombre de crédits complétés.");
         return;
       }
-
       const data = {
         gpa: currentGpa,
         credits: currentCredits,
         courses: courses,
       };
-
       const response = await axios.post(`${backendUrl}/api/submit`, data);
       setGpa(response.data.new_gpa);
     } catch (error) {
@@ -93,14 +89,14 @@ const ContentRectangleGpa = () => {
   };
 
   return (
-    <div className="w-3/5 h-screen bg-white pt-10 pl-10 pr-10 absolute top-40 right-10 shadow-2xl items-center">
+    <div className="w-full md:w-3/5 h-screen bg-white absolute right-0 shadow-2xl flex items-center justify-center">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="relative h-full transition-all duration-500"
+        className="relative h-full w-full flex justify-center items-center"
       >
         {currentStep === 1 && (
           <div
-            className={`absolute inset-0 flex flex-col items-center pt-44 transition-opacity duration-500 ${
+            className={`absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-500 ${
               isVisible ? "opacity-100" : "opacity-0"
             }`}
           >
@@ -112,7 +108,7 @@ const ContentRectangleGpa = () => {
                     <div className="ml-2 cursor-pointer">
                       <Button
                         variant="secondary"
-                        className=" pp-1 text-xs w-6 h-6 flex items-center justify-center rounded-full"
+                        className="pp-1 text-xs w-6 h-6 flex items-center justify-center rounded-full"
                         disabled
                       >
                         i
@@ -142,7 +138,7 @@ const ContentRectangleGpa = () => {
         )}
         {currentStep === 2 && (
           <div
-            className={`absolute inset-0 flex flex-col items-center pt-44 transition-opacity duration-500 ${
+            className={`absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-500 ${
               isVisible ? "opacity-100" : "opacity-0"
             }`}
           >
@@ -161,11 +157,11 @@ const ContentRectangleGpa = () => {
         )}
         {currentStep === 3 && (
           <div
-            className={`absolute inset-0 h-screen flex flex-col items-center pt-2 transition-opacity duration-500 ${
+            className={`absolute inset-0 h-screen flex flex-col items-center justify-start py-8 px-6 transition-opacity duration-500 ${
               isVisible ? "opacity-100" : "opacity-0"
             }`}
           >
-            <div className="mt-6 w-full">
+            <div className="w-full">
               <h2 className="text-xl font-bold mb-4 pb-3">Cours:</h2>
               <div className="h-auto min-h-[10rem] max-h-[55vh] w-full overflow-auto">
                 {courses.length === 0 && <p>Aucun cours ajouté.</p>}

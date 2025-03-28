@@ -116,7 +116,6 @@ const ContentRectangleGrade = () => {
   const calculateRequiredGrade = (data: GradeFormData) => {
     let totalWeightSoFar = 0;
     let weightedGradeSoFar = 0;
-
     exams.forEach((exam) => {
       totalWeightSoFar += exam.weight;
       weightedGradeSoFar += exam.grade * (exam.weight / 100);
@@ -139,7 +138,6 @@ const ContentRectangleGrade = () => {
     } else {
       setIsPossible(true);
     }
-
     console.log(requiredGrade);
     setRequiredGrade(requiredGrade);
   };
@@ -149,45 +147,22 @@ const ContentRectangleGrade = () => {
   };
 
   return (
-    <div className="w-3/5 h-screen bg-white pt-10 pl-10 pr-10 absolute top-40 right-10 shadow-2xl items-center">
+    <div className="w-full md:w-3/5 h-screen bg-white absolute right-0 shadow-2xl flex items-center justify-center">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="relative h-full transition-all duration-500"
+        className="relative h-full w-full flex justify-center items-center"
       >
         {currentStep === 1 && (
           <div
-            className={`absolute inset-0 flex flex-col items-center pt-44 transition-opacity duration-500 ${
+            className={`absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-500 ${
               isVisible ? "opacity-100" : "opacity-0"
             }`}
           >
             <div className="flex flex-row items-center pb-3">
               <p>Entrez la note de passage (%)</p>
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <div className="ml-2 cursor-pointer">
-                      <Button
-                        variant="secondary"
-                        className="pp-1 text-xs w-6 h-6 flex items-center justify-center rounded-full"
-                        disabled
-                      >
-                        i
-                      </Button>
-                    </div>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>
-                      La note minimale requise pour réussir le cours
-                      (généralement 50%)
-                    </p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
             </div>
             <Input
               className="w-2/4 mb-5"
-              type="number"
-              placeholder="Ex: 50"
               {...register("passingGrade", { valueAsNumber: true })}
             />
             {errors.passingGrade && (
@@ -198,14 +173,13 @@ const ContentRectangleGrade = () => {
             </ShimmerButton>
           </div>
         )}
-
         {currentStep === 2 && (
           <div
-            className={`absolute inset-0 flex flex-col items-center pt-10 transition-opacity duration-500 ${
+            className={`absolute inset-0 flex flex-col items-center px-10 py-10 transition-opacity duration-500 ${
               isVisible ? "opacity-100" : "opacity-0"
             }`}
           >
-            <div className="mt-6 w-full">
+            <div className="w-full max-h-screen overflow-auto pt-20">
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-xl font-bold">Examens:</h2>
                 <div className="flex flex-row items-center">
@@ -218,13 +192,11 @@ const ContentRectangleGrade = () => {
                   />
                 </div>
               </div>
-
               {errors.finalExamWeight && (
                 <p className="text-red-500 pb-2">
                   {errors.finalExamWeight.message}
                 </p>
               )}
-
               <div className="h-auto min-h-[10rem] max-h-[55vh] w-full overflow-auto">
                 {exams.length === 0 && <p>Aucun examen ajouté.</p>}
                 {exams.map((exam) => (
@@ -273,7 +245,6 @@ const ContentRectangleGrade = () => {
                 </ShimmerButton>
               )}
             </div>
-
             {requiredGrade !== null && (
               <div className="mt-8 p-6 rounded-lg bg-gray-50 text-center w-3/4">
                 <h2 className="text-xl font-semibold text-gray-700 mb-4">
@@ -307,7 +278,6 @@ const ContentRectangleGrade = () => {
           </div>
         )}
       </form>
-
       <Dialog open={isAddExamModalOpen} onOpenChange={setIsAddExamModalOpen}>
         <DialogContent
           className={`bg-white text-black p-0 overflow-hidden transition-opacity duration-300 ${isAddExamModalOpen ? "opacity-100" : "opacity-0"}`}

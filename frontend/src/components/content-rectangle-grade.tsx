@@ -5,13 +5,8 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Input } from "./ui/input";
 import * as z from "zod";
+import { Exam } from "../../types";
 import NumberTicker from "./magicui/number-ticker";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import { Button } from "./ui/button";
 import {
   Dialog,
@@ -21,14 +16,6 @@ import {
   DialogDescription,
   DialogFooter,
 } from "./ui/dialog";
-
-// Define the Exam type
-type Exam = {
-  id: string;
-  name?: string;
-  grade: number;
-  weight: number;
-};
 
 const gradeFormSchema = z.object({
   passingGrade: z
@@ -42,6 +29,7 @@ const gradeFormSchema = z.object({
 });
 
 const examSchema = z.object({
+  name: z.string().optional(),
   grade: z
     .number({ invalid_type_error: "Veuillez entrer un nombre entre 0 et 100" })
     .min(0, { message: "La note doit être au moins 0." })
@@ -102,6 +90,7 @@ const ContentRectangleGrade = () => {
   const handleAddExam = (data: ExamFormData) => {
     const newExam: Exam = {
       id: Math.random().toString(36).substring(7),
+      name: data.name,
       grade: data.grade,
       weight: data.weight,
     };
@@ -207,6 +196,11 @@ const ContentRectangleGrade = () => {
                   >
                     <div className="flex justify-between items-center">
                       <div>
+                        {exam.name && (
+                          <p>
+                            <strong>Nom:</strong> {exam.name}
+                          </p>
+                        )}
                         <p>
                           <strong>Note:</strong> {exam.grade}%
                         </p>
@@ -295,6 +289,19 @@ const ContentRectangleGrade = () => {
             onSubmit={handleSubmitExam(handleAddExam)}
             className="space-y-8 px-6"
           >
+            <div>
+              <label className="block mb-2">Nom (Optionel)</label>
+              <Input
+                {...registerExam("name", { valueAsNumber: false })}
+                className="w-full mb-4"
+                type="text"
+                placeholder="Mini-test"
+              />
+              {examErrors.grade && (
+                <p className="text-red-500">{examErrors.grade.message}</p>
+              )}
+            </div>
+
             <div>
               <label className="block mb-2">Note obtenue (%)</label>
               <Input

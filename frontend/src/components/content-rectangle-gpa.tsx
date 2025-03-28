@@ -46,6 +46,9 @@ const ContentRectangleGpa = () => {
   };
 
   const handleNextStep = () => {
+    if (errors.gpa) {
+      return;
+    }
     setIsVisible(false);
     setTimeout(() => {
       setCurrentStep((prevStep) => prevStep + 1);

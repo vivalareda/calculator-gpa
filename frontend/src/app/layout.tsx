@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import { PostHogProvider } from "../components/PostHogProvider";
 import "./globals.css";
 
 const poppins = Poppins({
@@ -18,12 +19,14 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body className={poppins.className}>{children}</body>
+      <body className={poppins.className}>
+        <PostHogProvider>
+          {children}
+        </PostHogProvider>
+      </body>
       <GoogleAnalytics gaId="G-8MKQKYQFY5" />
     </html>
   );

@@ -12,11 +12,11 @@ on:
       context-path:
         required: false
         type: string
-        default: '.'
+        default: "."
       build-args:
         required: false
         type: string
-        default: ''
+        default: ""
     secrets:
       GCP_CLOUDRUN_REGION:
         required: true
@@ -44,7 +44,7 @@ jobs:
         uses: docker/setup-buildx-action@v1
 
       - name: Cache Docker layers
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: /tmp/.buildx-cache
           key: ${{ runner.os }}-${{ inputs.container-name }}-${{ github.sha }}

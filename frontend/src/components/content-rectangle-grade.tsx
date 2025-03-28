@@ -25,6 +25,7 @@ import {
 // Define the Exam type
 type Exam = {
   id: string;
+  name?: string;
   grade: number;
   weight: number;
 };

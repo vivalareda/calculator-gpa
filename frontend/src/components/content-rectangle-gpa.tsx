@@ -68,21 +68,48 @@ const ContentRectangleGpa = () => {
     addCourse(course);
   };
 
-  const handleCalculateClick = async () => {
+  const handleCalculateClick = () => {
     try {
       const currentGpa = watch("gpa");
       const currentCredits = watch("credits");
+
       if (currentGpa === undefined || currentCredits === undefined) {
         alert("Veuillez entrer votre côte et le nombre de crédits complétés.");
         return;
       }
-      const data = {
-        gpa: currentGpa,
-        credits: currentCredits,
-        courses: courses,
+
+      const gradePoints: Record<string, number> = {
+        "A+": 4.3,
+        A: 4.0,
+        "A-": 3.7,
+        "B+": 3.3,
+        B: 3.0,
+        "B-": 2.7,
+        "C+": 2.3,
+        C: 2.0,
+        "C-": 1.7,
+        "D+": 1.3,
+        D: 1.0,
+        E: 0.0,
       };
-      const response = await axios.post(`${backendUrl}/api/submit`, data);
-      setGpa(response.data.new_gpa);
+
+      let totalQualityPoints = currentGpa * currentCredits;
+      let totalCredits = currentCredits;
+
+      courses.forEach((course) => {
+        const grade = +gradePoints[course.grade];
+        const courseCredits = +course.credits;
+        totalQualityPoints += +grade * courseCredits;
+        totalCredits += courseCredits;
+      });
+
+      if (totalCredits === 0) {
+        setGpa(0);
+        return;
+      }
+
+      const newGpa = totalQualityPoints / totalCredits;
+      setGpa(newGpa);
     } catch (error) {
       console.error("Error calculating GPA:", error);
     }
@@ -157,7 +184,7 @@ const ContentRectangleGpa = () => {
         )}
         {currentStep === 3 && (
           <div
-            className={`absolute inset-0 h-screen flex flex-col items-center justify-start py-8 px-6 transition-opacity duration-500 ${
+            className={`absolute inset-0 h-screen flex flex-col items-center justify-start py-8 px-6 transition-opacity duration-500 pt-20 ${
               isVisible ? "opacity-100" : "opacity-0"
             }`}
           >

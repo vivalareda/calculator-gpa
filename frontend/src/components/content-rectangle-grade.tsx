@@ -63,7 +63,6 @@ const ContentRectangleGrade = () => {
     register,
     handleSubmit,
     formState: { errors },
-    watch,
   } = useForm<GradeFormData>({
     resolver: zodResolver(gradeFormSchema),
     mode: "onBlur",

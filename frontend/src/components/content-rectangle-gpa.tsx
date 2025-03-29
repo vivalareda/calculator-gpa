@@ -1,7 +1,7 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import ShimmerButton from "./magicui/shimmer-button";
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { Input } from "./ui/input";
 import { formSchema, FormData, Course } from "../../types";
@@ -24,14 +24,15 @@ const ContentRectangleGpa = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [isVisible, setIsVisible] = useState(true);
   const [gpa, setGpa] = useState<number | null>(null);
-  const { courses, addCourse } = useCourseStore();
   const { isModalOpen, openModal, closeModal, modalType } = useModalStore();
   const { courseToModify } = useCourseToModify();
+  const courses = useCourseStore((state) => state.courses);
+  const addCourse = useCourseStore((state) => state.addCourse);
 
   const {
     register,
+    handleSubmit,
     formState: { errors },
-    watch,
   } = useForm<FormData>({
     resolver: zodResolver(formSchema),
     mode: "onBlur",
@@ -60,10 +61,10 @@ const ContentRectangleGpa = () => {
     addCourse(course);
   };
 
-  const handleCalculateClick = () => {
+  const onSubmit = (data: FormData) => {
     try {
-      const currentGpa = watch("gpa");
-      const currentCredits = watch("credits");
+      const currentGpa = data.gpa;
+      const currentCredits = data.credits;
 
       if (currentGpa === undefined || currentCredits === undefined) {
         alert("Veuillez entrer votre côte et le nombre de crédits complétés.");
@@ -107,9 +108,16 @@ const ContentRectangleGpa = () => {
     }
   };
 
+  const handleOpenAddCourseModal = useCallback(() => {
+    openModal("addCourse");
+  }, [openModal]);
+
   return (
     <div className="w-full md:w-3/5 h-screen bg-white absolute right-0 shadow-2xl flex items-center justify-center">
-      <form className="relative h-full w-full flex justify-center items-center">
+      <form
+        className="relative h-full w-full flex justify-center items-center"
+        onSubmit={handleSubmit(onSubmit)}
+      >
         {currentStep === 1 && (
           <div
             className={`absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-500 ${
@@ -199,15 +207,14 @@ const ContentRectangleGpa = () => {
               <ShimmerButton
                 type="button"
                 className="w-1/5 items-center pt-3"
-                onClick={() => openModal("addCourse")}
+                onClick={handleOpenAddCourseModal}
               >
                 Ajouter un cours
               </ShimmerButton>
               {courses.length > 0 && (
                 <ShimmerButton
-                  type="button"
+                  type="submit"
                   className="w-1/5 items-center pt-3"
-                  onClick={handleCalculateClick}
                 >
                   Calculer
                 </ShimmerButton>

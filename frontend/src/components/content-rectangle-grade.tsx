@@ -43,9 +43,17 @@ const examSchema = z.object({
       message: "La note doit être au maximum 100.",
     }),
   weight: z
-    .number({ invalid_type_error: "Veuillez entrer un nombre entre 0 et 100" })
-    .min(0, { message: "Le pourcentage doit être au moins 0." })
-    .max(100, { message: "Le pourcentage doit être au maximum 100." }),
+    .string()
+    .transform((val) => parseFloat(val))
+    .refine((val) => !isNaN(val), {
+      message: "La note doit être un nombre valide",
+    })
+    .refine((val) => val >= 0, {
+      message: "La note doit être au moins 0.",
+    })
+    .refine((val) => val <= 100, {
+      message: "La note doit être au maximum 100.",
+    }),
 });
 
 type GradeFormData = z.infer<typeof gradeFormSchema>;
@@ -250,7 +258,7 @@ const ContentRectangleGrade = () => {
             {requiredGrade !== null && (
               <div className="mt-8 p-6 rounded-lg bg-gray-50 text-center w-3/4">
                 <h2 className="text-xl font-semibold text-gray-700 mb-4">
-                  Résultat:
+                  Note minimale requise:
                 </h2>
                 {isPossible ? (
                   <div className="text-2xl font-bold text-blue-600">
@@ -258,6 +266,7 @@ const ContentRectangleGrade = () => {
                       value={Math.max(0, requiredGrade)}
                       className="font-bold text-blue-600"
                     />
+                    %
                   </div>
                 ) : (
                   <div className="text-lg font-medium text-red-500">
@@ -324,9 +333,9 @@ const ContentRectangleGrade = () => {
             <div>
               <label className="block mb-2">Poids de l'examen (%)</label>
               <Input
-                {...registerExam("weight", { valueAsNumber: true })}
+                {...registerExam("weight")}
                 className="w-full mb-4"
-                type="number"
+                type="text"
                 placeholder="Ex.: 20"
               />
               {examErrors.weight && (

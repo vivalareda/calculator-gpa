@@ -11,21 +11,15 @@ interface CourseState {
 export const useCourseStore = create<CourseState>((set) => ({
   courses: [],
   addCourse: (course) =>
-    set(
-      (state) => ({
-        courses: [...state.courses, { ...course, uuid: uuidv4() }],
-      }),
-      true,
-    ),
+    set((state) => ({
+      courses: [...state.courses, { ...course, id: uuidv4() }],
+    })),
   updateCourse: (course) =>
-    set(
-      (state) => ({
-        courses: state.courses.map((c) =>
-          c.courseName === course.courseName ? { ...course, uuid: c.uuid } : c,
-        ),
-      }),
-      true,
-    ),
+    set((state) => ({
+      courses: state.courses.map((c) =>
+        c.courseName === course.courseName ? { ...course, uuid: c.uuid } : c,
+      ),
+    })),
 }));
 
 export default useCourseStore;

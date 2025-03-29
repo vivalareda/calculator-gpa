@@ -13,7 +13,7 @@ export const useCourseStore = create<CourseState>((set) => ({
   addCourse: (course) =>
     set(
       (state) => ({
-        courses: [...state.courses, { ...course, id: uuidv4() }],
+        courses: [...state.courses, { ...course, uuid: uuidv4() }],
       }),
       true,
     ),

@@ -1,7 +1,7 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import ShimmerButton from "./magicui/shimmer-button";
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Input } from "./ui/input";
 import { formSchema, FormData, Course } from "../../types";
@@ -56,9 +56,12 @@ const ContentRectangleGpa = () => {
     }, 500);
   };
 
-  const handleAddCourse = (course: Course) => {
-    addCourse(course);
-  };
+  const handleAddCourse = useCallback(
+    (course: Course) => {
+      addCourse(course);
+    },
+    [addCourse],
+  );
 
   const handleCalculateClick = () => {
     try {
@@ -117,7 +120,7 @@ const ContentRectangleGpa = () => {
             }`}
           >
             <div className="flex flex-row items-center pb-3">
-              <p>Entrez votre côte actuelle</p>
+              <p>Entrez votre cote actuelle</p>
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>

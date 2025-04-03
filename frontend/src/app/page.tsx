@@ -51,24 +51,6 @@ export default function Home() {
                 </div>
               </div>
             </Link>
-
-            <Link href="/flashcards" className="w-full">
-              <div className="group h-full">
-                <div className="h-full bg-white border border-gray-200 rounded-xl p-8 shadow-sm hover:shadow-md transition-all flex flex-col items-center justify-center text-center gap-4 hover:border-green-300">
-                  <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center group-hover:bg-green-200 transition-colors">
-                    <FileCheck className="h-8 w-8 text-green-600" />
-                  </div>
-                  <div>
-                    <h2 className="text-xl font-bold text-gray-800 mb-2">
-                      Flashcards pour étude
-                    </h2>
-                    <p className="text-gray-600 text-sm">
-                      Creez des flashcards pour étudier et mémoriser la matière
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </Link>
           </div>
         </div>
       </div>

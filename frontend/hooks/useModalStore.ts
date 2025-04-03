@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-export type ModalType = "editCourse" | "addCourse" | "createFlashcard";
+export type ModalType = "editCourse" | "addCourse";
 
 interface ModalStore {
   modalType: ModalType | null;

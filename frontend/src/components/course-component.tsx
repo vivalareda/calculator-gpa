@@ -12,13 +12,21 @@ interface CourseProps {
 const CourseComponent = ({ name, credits, grade }: CourseProps) => {
   const { openModal } = useModalStore();
   const { setCourseToModify } = useCourseToModify();
-  const { courses } = useCourseStore();
+  const { courses, deleteCourse } = useCourseStore();
 
   const handleCourseEditClick = (name?: string) => {
     courses.forEach((course) => {
       if (course.courseName === name) {
         setCourseToModify(course);
         openModal("editCourse", name);
+      }
+    });
+  };
+
+  const handleDeleteCourse = (name?: string) => {
+    courses.forEach((course) => {
+      if (course.courseName === name) {
+        deleteCourse(course);
       }
     });
   };
@@ -37,14 +45,26 @@ const CourseComponent = ({ name, credits, grade }: CourseProps) => {
         </p>
       </div>
       <div>
-        <Button
-          variant="secondary"
-          type="button"
-          onClick={() => handleCourseEditClick(name)}
-          className="mt-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-300"
-        >
-          Editer
-        </Button>
+        <div>
+          <Button
+            variant="secondary"
+            type="button"
+            onClick={() => handleCourseEditClick(name)}
+            className="mt-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-300"
+          >
+            Editer
+          </Button>
+        </div>
+        <div>
+          <Button
+            variant="secondary"
+            type="button"
+            onClick={() => handleDeleteCourse(name)}
+            className="mt-2 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition duration-300"
+          >
+            Supprimer
+          </Button>
+        </div>
       </div>
     </div>
   );

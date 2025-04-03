@@ -14,6 +14,13 @@ export type Exam = {
   weight: number;
 };
 
+export type Flashcard = {
+  id: string;
+  question: string;
+  answer: string;
+  nextReview: Date;
+};
+
 export const formSchema = z.object({
   gpa: z
     .number({ invalid_type_error: "Please enter a number between 0 and 4.3" })

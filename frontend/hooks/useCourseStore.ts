@@ -6,6 +6,7 @@ interface CourseState {
   courses: Course[];
   addCourse: (course: Course) => void;
   updateCourse: (course: Course) => void;
+  deleteCourse: (course: Course) => void;
 }
 
 export const useCourseStore = create<CourseState>((set) => ({
@@ -19,6 +20,10 @@ export const useCourseStore = create<CourseState>((set) => ({
       courses: state.courses.map((c) =>
         c.courseName === course.courseName ? { ...course, uuid: c.uuid } : c,
       ),
+    })),
+  deleteCourse: (course: Course) =>
+    set((state) => ({
+      courses: state.courses.filter((c) => c.courseName !== course.courseName),
     })),
 }));
 

@@ -85,7 +85,6 @@ const ContentRectangleGpa = () => {
         "C-": 1.7,
         "D+": 1.3,
         D: 1.0,
-        "D-": 0.7,
         E: 0.0,
       };
 

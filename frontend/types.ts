@@ -36,6 +36,15 @@ export const CourseSchema = z.object({
   grade: z.string(),
 });
 
+// Valid grades array for reusability
+const VALID_GRADES = [
+  "A+", "A", "A-",
+  "B+", "B", "B-",
+  "C+", "C", "C-",
+  "D+", "D",
+  "E"
+] as const;
+
 export const createCourseSchema = (courses: Course[]) =>
   z.object({
     courseName: z
@@ -50,21 +59,12 @@ export const createCourseSchema = (courses: Course[]) =>
       .union([z.literal("1"), z.literal("3"), z.literal("4")])
       .optional(),
     grade: z
-      .union([
-        z.literal("A+"),
-        z.literal("A"),
-        z.literal("A-"),
-        z.literal("B+"),
-        z.literal("B"),
-        z.literal("B-"),
-        z.literal("C+"),
-        z.literal("C"),
-        z.literal("C-"),
-        z.literal("D+"),
-        z.literal("D"),
-        z.literal("D-"),
-        z.literal("E"),
-      ])
+      .string()
+      .trim()
+      .refine(
+        (grade) => VALID_GRADES.includes(grade as any),
+        { message: "La note doit être l'une des suivantes: " + VALID_GRADES.join(", ") }
+      )
       .optional(),
   });
 
@@ -75,22 +75,16 @@ export const editCourseSchema = () =>
       .union([z.literal("1"), z.literal("3"), z.literal("4")])
       .optional(),
     grade: z
-      .union([
-        z.literal("A+"),
-        z.literal("A"),
-        z.literal("A-"),
-        z.literal("B+"),
-        z.literal("B"),
-        z.literal("B-"),
-        z.literal("C+"),
-        z.literal("C"),
-        z.literal("C-"),
-        z.literal("D+"),
-        z.literal("D"),
-        z.literal("D-"),
-        z.literal("E"),
-      ])
+      .string()
+      .trim()
+      .refine(
+        (grade) => VALID_GRADES.includes(grade as any),
+        { message: "La note doit être l'une des suivantes: " + VALID_GRADES.join(", ") }
+      )
       .optional(),
   });
 
 export type FormData = z.infer<typeof formSchema>;
+
+// Export the valid grades for use in other components
+export { VALID_GRADES };

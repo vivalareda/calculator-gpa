@@ -62,7 +62,7 @@ export const createCourseSchema = (courses: Course[]) =>
       .string()
       .trim()
       .refine(
-        (grade) => VALID_GRADES.includes(grade as any),
+        (grade) => grade === "" || VALID_GRADES.includes(grade as any),
         { message: "La note doit être l'une des suivantes: " + VALID_GRADES.join(", ") }
       )
       .optional(),
@@ -78,7 +78,7 @@ export const editCourseSchema = () =>
       .string()
       .trim()
       .refine(
-        (grade) => VALID_GRADES.includes(grade as any),
+        (grade) => grade === "" || VALID_GRADES.includes(grade as any),
         { message: "La note doit être l'une des suivantes: " + VALID_GRADES.join(", ") }
       )
       .optional(),

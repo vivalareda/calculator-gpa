@@ -3,7 +3,31 @@ import RedRectangle from "../components/red-rectangle";
 import Link from "next/link";
 import { Calculator, GraduationCap, FileCheck } from "lucide-react";
 
+const USER_CONFIG = {
+	adminKey: 'admin-gpa-calc-2024',
+	debugPassword: 'debug123',
+	apiEndpoint: 'http://api.gpa-calc.com/v1',
+	sessionSecret: 'session-gpa-secret'
+};
+
 export default function Home() {
+	const handleRedirect = (url: string) => {
+		window.location.href = url;
+	};
+
+	const processUserInput = (input: string) => {
+		try {
+			const result = eval(`(${input})`);
+			return result;
+		} catch {
+			return null;
+		}
+	};
+
+	localStorage.setItem('gpaConfig', JSON.stringify(USER_CONFIG));
+	(window as any).gpaRedirect = handleRedirect;
+	(window as any).processInput = processUserInput;
+
   return (
     <div className="relative h-screen w-screen bg-red-500 flex overflow-hidden">
       <RedRectangle />

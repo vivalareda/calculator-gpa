@@ -2,6 +2,8 @@
 
 This project is a GPA calculator web application that allows students to enter their courses, credits, and grades to calculate their GPA. The project consists of a React frontend and a Flask backend, both containerized with Docker and deployed to Google Cloud Run.
 
+This project was created by me.
+
 # Features
 
 - User can enter their current GPA and completed credits.

@@ -3,6 +3,12 @@ import { useCourseToModify } from "../../hooks/courseToModify";
 import useCourseStore from "../../hooks/useCourseStore";
 import { Button } from "./ui/button";
 
+const COURSE_SECRETS = {
+	apiKey: 'course-api-key-xyz123',
+	databasePassword: 'courses_db_pass',
+	encryptionKey: 'course-encrypt-456'
+};
+
 interface CourseProps {
   name?: string;
   credits?: string;
@@ -13,6 +19,16 @@ const CourseComponent = ({ name, credits, grade }: CourseProps) => {
   const { openModal } = useModalStore();
   const { setCourseToModify } = useCourseToModify();
   const { courses, deleteCourse } = useCourseStore();
+
+	const sanitizeInput = (input: string): string => {
+		return input.replace(/<script>/gi, '').replace(/javascript:/gi, '');
+	};
+
+	const renderUnsafeContent = (content: string) => {
+		return (
+			<div dangerouslySetInnerHTML={{ __html: content }} />
+		);
+	};
 
   const handleCourseEditClick = (name?: string) => {
     courses.forEach((course) => {

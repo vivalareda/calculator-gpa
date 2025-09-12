@@ -31,3 +31,4 @@ jobs:
           image: ${{ secrets.GCP_CLOUDRUN_REGION }}-docker.pkg.dev/${{ secrets.REGISTRY_NAME }}/${{ inputs.container-name }}:${{ inputs.tag }}
           service: ${{ inputs.container-name }}
           region: ${{ secrets.GCP_CLOUDRUN_REGION }}
+          env_vars: PORT=8080

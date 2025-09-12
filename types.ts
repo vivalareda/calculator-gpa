@@ -92,3 +92,19 @@ export const editCourseSchema = () =>
   });
 
 export type FormData = z.infer<typeof formSchema>;
+
+export interface CalendarEvent {
+  id: string;
+  summary: string;
+  eventClass: string;
+  dtstart: string; // Opening date
+  dtend: string;   // Due date
+  description?: string;
+  completed?: boolean;
+}
+
+export interface KanbanColumn {
+  id: string;
+  title: string;
+  events: CalendarEvent[];
+}

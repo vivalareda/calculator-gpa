@@ -55,7 +55,6 @@ export default function CourseFinderPage() {
 	const filteredCourses = useMemo(() => {
 		let filtered = coursesData;
 
-		// Filter by selected specializations
 		if (selectedSpecializations.length > 0) {
 			filtered = filtered.filter((course) =>
 				course.specializations.some((spec) =>
@@ -64,7 +63,6 @@ export default function CourseFinderPage() {
 			);
 		}
 
-		// Filter by search term
 		if (searchTerm.trim()) {
 			const searchLower = searchTerm.toLowerCase();
 			filtered = filtered.filter(

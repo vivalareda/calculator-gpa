@@ -3,7 +3,12 @@ name: Build and Deploy Frontend
 on:
   push:
     paths:
-      - "frontend/**"
+      - "src/**"
+      - "package.json"
+      - "next.config.mjs"
+      - "tailwind.config.ts"
+      - "tsconfig.json"
+      - "Dockerfile"
     branches:
       - main
 
@@ -13,7 +18,7 @@ jobs:
     with:
       container-name: frontend
       tag: latest
-      context-path: frontend
+      context-path: .
     secrets:
       GCP_CLOUDRUN_REGION: ${{ secrets.GCP_CLOUDRUN_REGION }}
       GAR_JSON_KEY: ${{ secrets.GAR_JSON_KEY }}

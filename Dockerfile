@@ -19,7 +19,7 @@ ENV NEXT_PUBLIC_POSTHOG_KEY=$NEXT_PUBLIC_POSTHOG_KEY
 # Build the application
 RUN npm run build
 
-# Expose the port the app runs on
+# Expose the port the app runs on (Cloud Run will set PORT env var)
 EXPOSE 8080
 
 # Define the command to run the application

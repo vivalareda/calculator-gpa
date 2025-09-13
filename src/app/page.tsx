@@ -1,59 +1,78 @@
 "use client";
-import RedRectangle from "../components/red-rectangle";
+import { Calculator, GraduationCap, Search } from "lucide-react";
 import Link from "next/link";
-import { Calculator, GraduationCap, FileCheck } from "lucide-react";
+import RedRectangle from "../components/red-rectangle";
 
 export default function Home() {
-  return (
-    <div className="relative h-screen w-screen bg-red-500 flex overflow-hidden">
-      <RedRectangle />
-      <div className="w-full md:w-3/5 h-screen bg-gray-50 pt-10 px-6 md:px-10 absolute top-0 md:top-0 right-0 shadow-xl flex flex-col items-center justify-center">
-        <div className="flex flex-col items-center transition-opacity duration-500">
-          <h1 className="text-3xl font-bold mb-10 text-center text-gray-800">
-            Que voulez-vous calculer?
-          </h1>
+	return (
+		<div className="relative flex h-screen w-screen overflow-hidden bg-red-500">
+			<RedRectangle />
+			<div className="absolute right-0 top-0 flex h-screen w-full flex-col items-center justify-center bg-gray-50 px-6 pt-10 shadow-xl md:top-0 md:w-3/5 md:px-10">
+				<div className="flex flex-col items-center transition-opacity duration-500">
+					<h1 className="mb-10 text-center text-3xl font-bold text-gray-800">
+						Que voulez-vous faire?
+					</h1>
 
-          <div className="grid md:grid-cols-2 gap-6 w-full max-w-3xl">
-            <Link href="/gpa" className="w-full">
-              <div className="group h-full">
-                <div className="h-full bg-white border border-gray-200 rounded-xl p-8 shadow-sm hover:shadow-md transition-all flex flex-col items-center justify-center text-center gap-4 hover:border-blue-300">
-                  <div className="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center group-hover:bg-blue-200 transition-colors">
-                    <GraduationCap className="h-8 w-8 text-blue-600" />
-                  </div>
-                  <div>
-                    <h2 className="text-xl font-bold text-gray-800 mb-2">
-                      Calculer ma cote
-                    </h2>
-                    <p className="text-gray-600 text-sm">
-                      Calculez votre nouvelle cote en fonction des cours que
-                      vous avez complétés
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </Link>
+					<div className="grid w-full max-w-4xl gap-6 md:grid-cols-3">
+						<Link href="/gpa" className="w-full">
+							<div className="group h-full">
+								<div className="flex h-full flex-col items-center justify-center gap-4 rounded-xl border border-gray-200 bg-white p-8 text-center shadow-sm transition-all hover:border-blue-300 hover:shadow-md">
+									<div className="flex h-16 w-16 items-center justify-center rounded-full bg-blue-100 transition-colors group-hover:bg-blue-200">
+										<GraduationCap className="h-8 w-8 text-blue-600" />
+									</div>
+									<div>
+										<h2 className="mb-2 text-xl font-bold text-gray-800">
+											Calculer ma cote
+										</h2>
+										<p className="text-sm text-gray-600">
+											Calculez votre nouvelle cote en fonction des cours que
+											vous avez complétés
+										</p>
+									</div>
+								</div>
+							</div>
+						</Link>
 
-            <Link href="/grade-calculator" className="w-full">
-              <div className="group h-full">
-                <div className="h-full bg-white border border-gray-200 rounded-xl p-8 shadow-sm hover:shadow-md transition-all flex flex-col items-center justify-center text-center gap-4 hover:border-green-300">
-                  <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center group-hover:bg-green-200 transition-colors">
-                    <Calculator className="h-8 w-8 text-green-600" />
-                  </div>
-                  <div>
-                    <h2 className="text-xl font-bold text-gray-800 mb-2">
-                      Note minimale requise
-                    </h2>
-                    <p className="text-gray-600 text-sm">
-                      Calculez la note minimale dont vous avez besoin pour
-                      réussir un cours
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </Link>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+						<Link href="/grade-calculator" className="w-full">
+							<div className="group h-full">
+								<div className="flex h-full flex-col items-center justify-center gap-4 rounded-xl border border-gray-200 bg-white p-8 text-center shadow-sm transition-all hover:border-green-300 hover:shadow-md">
+									<div className="flex h-16 w-16 items-center justify-center rounded-full bg-green-100 transition-colors group-hover:bg-green-200">
+										<Calculator className="h-8 w-8 text-green-600" />
+									</div>
+									<div>
+										<h2 className="mb-2 text-xl font-bold text-gray-800">
+											Calculer le note minimale requise
+										</h2>
+										<p className="text-sm text-gray-600">
+											Calculez la note minimale dont vous avez besoin pour
+											réussir un cours
+										</p>
+									</div>
+								</div>
+							</div>
+						</Link>
+
+						<Link href="/course-finder" className="w-full">
+							<div className="group h-full">
+								<div className="flex h-full flex-col items-center justify-center gap-4 rounded-xl border border-gray-200 bg-white p-8 text-center shadow-sm transition-all hover:border-purple-300 hover:shadow-md">
+									<div className="flex h-16 w-16 items-center justify-center rounded-full bg-purple-100 transition-colors group-hover:bg-purple-200">
+										<Search className="h-8 w-8 text-purple-600" />
+									</div>
+									<div>
+										<h2 className="mb-2 text-xl font-bold text-gray-800">
+											Trouver des cours par catégorie
+										</h2>
+										<p className="text-sm text-gray-600">
+											Filtrez les cours par spécialisation/catégorie pour se
+											spécialiser
+										</p>
+									</div>
+								</div>
+							</div>
+						</Link>
+					</div>
+				</div>
+			</div>
+		</div>
+	);
 }

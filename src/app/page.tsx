@@ -16,8 +16,8 @@ export default function Home() {
 					<div className="grid w-full max-w-4xl gap-6 md:grid-cols-3">
 						<Link href="/gpa" className="w-full">
 							<div className="group h-full">
-								<div className="flex h-full flex-col items-center justify-center gap-4 rounded-xl border border-gray-200 bg-white p-8 text-center shadow-sm transition-all hover:border-blue-300 hover:shadow-md">
-									<div className="flex h-16 w-16 items-center justify-center rounded-full bg-blue-100 transition-colors group-hover:bg-blue-200">
+								<div className="flex h-full flex-col items-center justify-start gap-4 rounded-xl border border-gray-200 bg-white p-8 text-center shadow-sm transition-all hover:border-blue-300 hover:shadow-md pt-12">
+									<div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-blue-100 transition-colors group-hover:bg-blue-200">
 										<GraduationCap className="h-8 w-8 text-blue-600" />
 									</div>
 									<div>
@@ -35,8 +35,8 @@ export default function Home() {
 
 						<Link href="/grade-calculator" className="w-full">
 							<div className="group h-full">
-								<div className="flex h-full flex-col items-center justify-center gap-4 rounded-xl border border-gray-200 bg-white p-8 text-center shadow-sm transition-all hover:border-green-300 hover:shadow-md">
-									<div className="flex h-16 w-16 items-center justify-center rounded-full bg-green-100 transition-colors group-hover:bg-green-200">
+								<div className="flex h-full flex-col items-center justify-start gap-4 rounded-xl border border-gray-200 bg-white p-8 text-center shadow-sm transition-all hover:border-green-300 hover:shadow-md pt-12">
+									<div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-green-100 transition-colors group-hover:bg-green-200">
 										<Calculator className="h-8 w-8 text-green-600" />
 									</div>
 									<div>
@@ -54,8 +54,8 @@ export default function Home() {
 
 						<Link href="/course-finder" className="w-full">
 							<div className="group h-full">
-								<div className="flex h-full flex-col items-center justify-center gap-4 rounded-xl border border-gray-200 bg-white p-8 text-center shadow-sm transition-all hover:border-purple-300 hover:shadow-md">
-									<div className="flex h-16 w-16 items-center justify-center rounded-full bg-purple-100 transition-colors group-hover:bg-purple-200">
+								<div className="flex h-full flex-col items-center justify-start gap-4 rounded-xl border border-gray-200 bg-white p-8 text-center shadow-sm transition-all hover:border-purple-300 hover:shadow-md pt-12">
+									<div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-purple-100 transition-colors group-hover:bg-purple-200">
 										<Search className="h-8 w-8 text-purple-600" />
 									</div>
 									<div>

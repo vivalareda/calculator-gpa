@@ -11,7 +11,7 @@ export function PostHogProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     // biome-ignore lint/style/noNonNullAssertion: <posthog config file>
     posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY!, {
-      api_host: "/ingest",
+      api_host: "/ph-capture",
       ui_host: "https://us.posthog.com",
       capture_pageview: false, // We capture pageviews manually
       capture_pageleave: true, // Enable pageleave capture

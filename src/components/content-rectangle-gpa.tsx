@@ -1,27 +1,33 @@
 "use client";
+
 import { zodResolver } from "@hookform/resolvers/zod";
-import ShimmerButton from "./magicui/shimmer-button";
-import React, { useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Input } from "./ui/input";
-import { formSchema, FormData, Course } from "../../types";
-import AddCourseModal from "./modals/AddCourseModal";
-import EditCourseModal from "./modals/EditCourseModal";
-import NumberTicker from "./magicui/number-ticker";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Button } from "./ui/button";
+import { useCourseToModify } from "../../hooks/course-to-modify";
+import useCourseStore from "../../hooks/use-course-store";
+import useModalStore from "../../hooks/use-modal-store";
+import { type Course, type FormData, formSchema } from "../../types";
 import CourseComponent from "./course-component";
-import useCourseStore from "../../hooks/useCourseStore";
-import useModalStore from "../../hooks/useModalStore";
-import { useCourseToModify } from "../../hooks/courseToModify";
+import NumberTicker from "./magicui/number-ticker";
+import ShimmerButton from "./magicui/shimmer-button";
+import AddCourseModal from "./modals/add-course-modal";
+import EditCourseModal from "./modals/edit-course-modal";
+
+import { Button } from "./ui/button";
+import { Input } from "./ui/input";
+
+const STEP_TRANSITION_DELAY = 500;
+const FIRST_STEP = 1;
+const THIRD_STEP = 3;
 
 const ContentRectangleGpa = () => {
-  const [currentStep, setCurrentStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState(FIRST_STEP);
   const [isVisible, setIsVisible] = useState(true);
   const [gpa, setGpa] = useState<number | null>(null);
   const { courses, addCourse } = useCourseStore();
@@ -53,14 +59,14 @@ const ContentRectangleGpa = () => {
     setTimeout(() => {
       setCurrentStep((prevStep) => prevStep + 1);
       setIsVisible(true);
-    }, 500);
+    }, STEP_TRANSITION_DELAY);
   };
 
   const handleAddCourse = useCallback(
     (course: Course) => {
       addCourse(course);
     },
-    [addCourse],
+    [addCourse]
   );
 
   const handleCalculateClick = () => {
@@ -91,12 +97,12 @@ const ContentRectangleGpa = () => {
       let totalQualityPoints = currentGpa * currentCredits;
       let totalCredits = currentCredits;
 
-      courses.forEach((course) => {
+      for (const course of courses) {
         const grade = +gradePoints[course.grade];
         const courseCredits = +course.credits;
         totalQualityPoints += +grade * courseCredits;
         totalCredits += courseCredits;
-      });
+      }
 
       if (totalCredits === 0) {
         setGpa(0);
@@ -105,17 +111,17 @@ const ContentRectangleGpa = () => {
 
       const newGpa = totalQualityPoints / totalCredits;
       setGpa(newGpa);
-    } catch (error) {
-      console.error("Error calculating GPA:", error);
+    } catch (_error) {
+      // Silently handle calculation errors
     }
   };
 
   return (
-    <div className="w-full md:w-3/5 h-screen bg-white absolute right-0 shadow-2xl flex items-center justify-center">
-      <form className="relative h-full w-full flex justify-center items-center">
+    <div className="absolute right-0 flex h-screen w-full items-center justify-center bg-white shadow-2xl md:w-3/5">
+      <form className="relative flex h-full w-full items-center justify-center">
         {currentStep === 1 && (
           <div
-            className={`absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-500 ${
+            className={`absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-500${
               isVisible ? "opacity-100" : "opacity-0"
             }`}
           >
@@ -126,9 +132,9 @@ const ContentRectangleGpa = () => {
                   <TooltipTrigger asChild>
                     <div className="ml-2 cursor-pointer">
                       <Button
-                        variant="secondary"
-                        className="pp-1 text-xs w-6 h-6 flex items-center justify-center rounded-full"
+                        className="pp-1 flex h-6 w-6 items-center justify-center rounded-full text-xs"
                         disabled
+                        variant="secondary"
                       >
                         i
                       </Button>
@@ -144,73 +150,73 @@ const ContentRectangleGpa = () => {
               </TooltipProvider>
             </div>
             <Input
-              className="w-2/4 mb-5"
+              className="mb-5 w-2/4"
               {...register("gpa", { valueAsNumber: true })}
             />
             {errors.gpa && (
-              <p className="text-red-500 pb-2">{errors.gpa.message}</p>
+              <p className="pb-2 text-red-500">{errors.gpa.message}</p>
             )}
-            <ShimmerButton type="button" onClick={handleNextStep}>
+            <ShimmerButton onClick={handleNextStep} type="button">
               Suivant
             </ShimmerButton>
           </div>
         )}
         {currentStep === 2 && (
           <div
-            className={`absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-500 ${
+            className={`absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-500${
               isVisible ? "opacity-100" : "opacity-0"
             }`}
           >
             <p className="pb-3">Entrez le nombre de crédits complété</p>
             <Input
-              className="w-2/4 mb-5"
+              className="mb-5 w-2/4"
               {...register("credits", { valueAsNumber: true })}
             />
             {errors.credits && (
-              <p className="text-red-500 pb-2">{errors.credits.message}</p>
+              <p className="pb-2 text-red-500">{errors.credits.message}</p>
             )}
-            <ShimmerButton type="button" onClick={handleNextStep}>
+            <ShimmerButton onClick={handleNextStep} type="button">
               Suivant
             </ShimmerButton>
           </div>
         )}
-        {currentStep === 3 && (
+        {currentStep === THIRD_STEP && (
           <div
-            className={`absolute inset-0 h-screen flex flex-col items-center justify-start py-8 px-6 transition-opacity duration-500 pt-20 ${
+            className={`absolute inset-0 flex h-screen flex-col items-center justify-start px-6 py-8 pt-20 transition-opacity duration-500${
               isVisible ? "opacity-100" : "opacity-0"
             }`}
           >
             <div className="w-full">
-              <h2 className="text-xl font-bold mb-4 pb-3">Cours:</h2>
-              <div className="h-auto min-h-[10rem] max-h-[55vh] w-full overflow-auto">
+              <h2 className="mb-4 pb-3 font-bold text-xl">Cours:</h2>
+              <div className="h-auto max-h-[55vh] min-h-[10rem] w-full overflow-auto">
                 {courses.length === 0 && <p>Aucun cours ajouté.</p>}
-                {courses.map((course, index) => (
+                {courses.map((course) => (
                   <div
-                    key={index}
-                    className="bg-gray-100 p-4 mb-2 rounded shadow"
+                    className="mb-2 rounded bg-gray-100 p-4 shadow"
+                    key={course.courseName}
                   >
                     <CourseComponent
-                      name={course.courseName}
                       credits={course.credits}
                       grade={course.grade}
+                      name={course.courseName}
                     />
                   </div>
                 ))}
               </div>
             </div>
-            <div className="flex justify-center w-5/6 gap-16 pt-8">
+            <div className="flex w-5/6 justify-center gap-16 pt-8">
               <ShimmerButton
-                type="button"
                 className="w-1/5 items-center pt-3"
                 onClick={() => openModal("addCourse")}
+                type="button"
               >
                 Ajouter un cours
               </ShimmerButton>
               {courses.length > 0 && (
                 <ShimmerButton
-                  type="button"
                   className="w-1/5 items-center pt-3"
                   onClick={handleCalculateClick}
+                  type="button"
                 >
                   Calculer
                 </ShimmerButton>
@@ -218,7 +224,7 @@ const ContentRectangleGpa = () => {
             </div>
             {gpa !== null && (
               <div className="mt-4 text-center">
-                <h3 className="text-xl font-bold">
+                <h3 className="font-bold text-xl">
                   Votre côte: <NumberTicker value={gpa} />
                 </h3>
               </div>
@@ -235,10 +241,10 @@ const ContentRectangleGpa = () => {
       )}
       {isModalOpen && modalType === "editCourse" && (
         <EditCourseModal
+          courseToModify={courseToModify}
           isOpen={isModalOpen}
           onClose={closeModal}
           onSave={handleOnSaveEditCourse}
-          courseToModify={courseToModify}
         />
       )}
     </div>

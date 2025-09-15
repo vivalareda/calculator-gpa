@@ -3,6 +3,8 @@
 import { useInView, useMotionValue, useSpring } from "framer-motion";
 import { useEffect, useRef } from "react";
 
+const MILLISECONDS_PER_SECOND = 1000;
+
 export default function NumberTicker({
   value,
   direction = "up",
@@ -26,7 +28,7 @@ export default function NumberTicker({
     isInView &&
       setTimeout(() => {
         motionValue.set(direction === "down" ? 0 : value);
-      }, delay * 1000);
+      }, delay * MILLISECONDS_PER_SECOND);
   }, [motionValue, isInView, delay, value, direction]);
 
   useEffect(
@@ -39,12 +41,12 @@ export default function NumberTicker({
           }).format(latest);
         }
       }),
-    [springValue],
+    [springValue]
   );
 
   return (
     <span
-      className={`inline-block tabular-nums text-black dark:text-white ${className}`}
+      className={`inline-block text-black tabular-nums dark:text-white ${className}`}
       ref={ref}
     />
   );

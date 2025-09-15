@@ -2,13 +2,13 @@ import { create } from "zustand";
 
 export type ModalType = "editCourse" | "addCourse";
 
-interface ModalStore {
+type ModalStore = {
   modalType: ModalType | null;
   isModalOpen: boolean;
   courseToModify?: string | null;
   openModal: (type: ModalType, courseName?: string) => void;
   closeModal: () => void;
-}
+};
 
 export const useModalStore = create<ModalStore>((set) => ({
   modalType: null,

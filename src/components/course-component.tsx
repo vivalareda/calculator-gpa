@@ -1,38 +1,40 @@
-import useModalStore from "../../hooks/useModalStore";
-import { useCourseToModify } from "../../hooks/courseToModify";
-import useCourseStore from "../../hooks/useCourseStore";
+import { useCourseToModify } from "../../hooks/course-to-modify";
+import useCourseStore from "../../hooks/use-course-store";
+import useModalStore from "../../hooks/use-modal-store";
 import { Button } from "./ui/button";
 
-interface CourseProps {
+type CourseProps = {
   name?: string;
   credits?: string;
   grade?: string;
-}
+};
 
 const CourseComponent = ({ name, credits, grade }: CourseProps) => {
   const { openModal } = useModalStore();
   const { setCourseToModify } = useCourseToModify();
   const { courses, deleteCourse } = useCourseStore();
 
-  const handleCourseEditClick = (name?: string) => {
-    courses.forEach((course) => {
-      if (course.courseName === name) {
+  const handleCourseEditClick = (courseName?: string) => {
+    for (const course of courses) {
+      if (course.courseName === courseName) {
         setCourseToModify(course);
-        openModal("editCourse", name);
+        openModal("editCourse", courseName);
+        break;
       }
-    });
+    }
   };
 
-  const handleDeleteCourse = (name?: string) => {
-    courses.forEach((course) => {
-      if (course.courseName === name) {
+  const handleDeleteCourse = (courseName?: string) => {
+    for (const course of courses) {
+      if (course.courseName === courseName) {
         deleteCourse(course);
+        break;
       }
-    });
+    }
   };
 
   return (
-    <div className="flex justify-between items-center">
+    <div className="flex items-center justify-between">
       <div>
         <p>
           <strong>Nom du cours:</strong> {name}
@@ -47,20 +49,20 @@ const CourseComponent = ({ name, credits, grade }: CourseProps) => {
       <div>
         <div>
           <Button
-            variant="secondary"
-            type="button"
+            className="mt-2 rounded bg-blue-500 px-4 py-2 text-white transition duration-300 hover:bg-blue-600"
             onClick={() => handleCourseEditClick(name)}
-            className="mt-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-300"
+            type="button"
+            variant="secondary"
           >
             Editer
           </Button>
         </div>
         <div>
           <Button
-            variant="secondary"
-            type="button"
+            className="mt-2 rounded bg-red-500 px-4 py-2 text-white transition duration-300 hover:bg-red-600"
             onClick={() => handleDeleteCourse(name)}
-            className="mt-2 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition duration-300"
+            type="button"
+            variant="secondary"
           >
             Supprimer
           </Button>

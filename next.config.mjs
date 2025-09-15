@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  async rewrites() {
+  rewrites() {
     return [
       {
         source: "/ingest/static/:path*",

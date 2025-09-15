@@ -1,4 +1,6 @@
-import * as z from "zod";
+import { z } from "zod";
+
+const MAX_GPA = 4.3;
 
 export type Course = {
   uuid: string;
@@ -18,15 +20,17 @@ export const formSchema = z.object({
   gpa: z
     .number({ invalid_type_error: "Please enter a number between 0 and 4.3" })
     .min(0, { message: "GPA must be at least 0." })
-    .max(4.3, { message: "GPA must be at most 4.3." })
-    .refine((value) => !isNaN(value), {
+    .max(MAX_GPA, { message: "GPA must be at most 4.3." })
+    .refine((value) => !Number.isNaN(value), {
       message: "Please enter a number between 0 and 4",
     }),
   credits: z
     .number({ invalid_type_error: "Please enter a number" })
     .int({ message: "Credits must be an integer." })
     .positive({ message: "Credits must be positive." })
-    .refine((value) => !isNaN(value), { message: "Please enter a number" }),
+    .refine((value) => !Number.isNaN(value), {
+      message: "Please enter a number",
+    }),
 });
 
 export const CourseSchema = z.object({
@@ -44,7 +48,7 @@ export const createCourseSchema = (courses: Course[]) =>
       .refine(
         (courseName) =>
           !courses.some((course) => course.courseName === courseName),
-        { message: "Ce cours existe déjà." },
+        { message: "Ce cours existe déjà." }
       ),
     credits: z
       .union([z.literal("1"), z.literal("3"), z.literal("4")])
@@ -93,18 +97,18 @@ export const editCourseSchema = () =>
 
 export type FormData = z.infer<typeof formSchema>;
 
-export interface CalendarEvent {
+export type CalendarEvent = {
   id: string;
   summary: string;
   eventClass: string;
   dtstart: string; // Opening date
-  dtend: string;   // Due date
+  dtend: string; // Due date
   description?: string;
   completed?: boolean;
-}
+};
 
-export interface KanbanColumn {
+export type KanbanColumn = {
   id: string;
   title: string;
   events: CalendarEvent[];
-}
+};

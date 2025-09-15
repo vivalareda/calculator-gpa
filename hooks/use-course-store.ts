@@ -1,13 +1,13 @@
-import { create } from "zustand";
-import { Course } from "../types";
 import { v4 as uuidv4 } from "uuid";
+import { create } from "zustand";
+import type { Course } from "../types";
 
-interface CourseState {
+type CourseState = {
   courses: Course[];
   addCourse: (course: Course) => void;
   updateCourse: (course: Course) => void;
   deleteCourse: (course: Course) => void;
-}
+};
 
 export const useCourseStore = create<CourseState>((set) => ({
   courses: [],
@@ -18,7 +18,7 @@ export const useCourseStore = create<CourseState>((set) => ({
   updateCourse: (course) =>
     set((state) => ({
       courses: state.courses.map((c) =>
-        c.courseName === course.courseName ? { ...course, uuid: c.uuid } : c,
+        c.courseName === course.courseName ? { ...course, uuid: c.uuid } : c
       ),
     })),
   deleteCourse: (course: Course) =>

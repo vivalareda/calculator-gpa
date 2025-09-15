@@ -1,57 +1,71 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
-import ShimmerButton from "./magicui/shimmer-button";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Input } from "./ui/input";
-import * as z from "zod";
-import { Exam } from "../../types";
+import { z } from "zod";
+import type { Exam } from "../../types";
 import NumberTicker from "./magicui/number-ticker";
+import ShimmerButton from "./magicui/shimmer-button";
 import { Button } from "./ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogHeader,
-  DialogTitle,
   DialogDescription,
   DialogFooter,
+  DialogHeader,
+  DialogTitle,
 } from "./ui/dialog";
+import { Input } from "./ui/input";
+
+const MAX_GRADE_PERCENTAGE = 100;
+const MIN_GRADE_PERCENTAGE = 0;
+const STEP_TRANSITION_DELAY = 500;
+const FIRST_STEP = 1;
+const SECOND_STEP = 2;
+const RANDOM_ID_BASE = 36;
+const RANDOM_ID_LENGTH = 7;
 
 const gradeFormSchema = z.object({
   passingGrade: z
     .number({ invalid_type_error: "Veuillez entrer un nombre entre 0 et 100" })
-    .min(0, { message: "La note doit être au moins 0." })
-    .max(100, { message: "La note doit être au maximum 100." }),
+    .min(MIN_GRADE_PERCENTAGE, { message: "La note doit être au moins 0." })
+    .max(MAX_GRADE_PERCENTAGE, {
+      message: "La note doit être au maximum 100.",
+    }),
   finalExamWeight: z
     .number({ invalid_type_error: "Veuillez entrer un nombre entre 0 et 100" })
-    .min(0, { message: "Le pourcentage doit être au moins 0." })
-    .max(100, { message: "Le pourcentage doit être au maximum 100." }),
+    .min(MIN_GRADE_PERCENTAGE, {
+      message: "Le pourcentage doit être au moins 0.",
+    })
+    .max(MAX_GRADE_PERCENTAGE, {
+      message: "Le pourcentage doit être au maximum 100.",
+    }),
 });
 
 const examSchema = z.object({
   name: z.string().optional(),
   grade: z
     .string()
-    .transform((val) => parseFloat(val))
-    .refine((val) => !isNaN(val), {
+    .transform((val) => Number.parseFloat(val))
+    .refine((val) => !Number.isNaN(val), {
       message: "La note doit être un nombre valide",
     })
-    .refine((val) => val >= 0, {
+    .refine((val) => val >= MIN_GRADE_PERCENTAGE, {
       message: "La note doit être au moins 0.",
     })
-    .refine((val) => val <= 100, {
+    .refine((val) => val <= MAX_GRADE_PERCENTAGE, {
       message: "La note doit être au maximum 100.",
     }),
   weight: z
     .string()
-    .transform((val) => parseFloat(val))
-    .refine((val) => !isNaN(val), {
+    .transform((val) => Number.parseFloat(val))
+    .refine((val) => !Number.isNaN(val), {
       message: "La note doit être un nombre valide",
     })
-    .refine((val) => val >= 0, {
+    .refine((val) => val >= MIN_GRADE_PERCENTAGE, {
       message: "La note doit être au moins 0.",
     })
-    .refine((val) => val <= 100, {
+    .refine((val) => val <= MAX_GRADE_PERCENTAGE, {
       message: "La note doit être au maximum 100.",
     }),
 });
@@ -60,7 +74,7 @@ type GradeFormData = z.infer<typeof gradeFormSchema>;
 type ExamFormData = z.infer<typeof examSchema>;
 
 const ContentRectangleGrade = () => {
-  const [currentStep, setCurrentStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState(FIRST_STEP);
   const [isVisible, setIsVisible] = useState(true);
   const [requiredGrade, setRequiredGrade] = useState<number | null>(null);
   const [isPossible, setIsPossible] = useState(true);
@@ -99,12 +113,12 @@ const ContentRectangleGrade = () => {
     setTimeout(() => {
       setCurrentStep((prevStep) => prevStep + 1);
       setIsVisible(true);
-    }, 500);
+    }, STEP_TRANSITION_DELAY);
   };
 
   const handleAddExam = (data: ExamFormData) => {
     const newExam: Exam = {
-      id: Math.random().toString(36).substring(7),
+      id: Math.random().toString(RANDOM_ID_BASE).substring(RANDOM_ID_LENGTH),
       name: data.name,
       grade: data.grade,
       weight: data.weight,
@@ -121,30 +135,29 @@ const ContentRectangleGrade = () => {
   const calculateRequiredGrade = (data: GradeFormData) => {
     let totalWeightSoFar = 0;
     let weightedGradeSoFar = 0;
-    exams.forEach((exam) => {
+    for (const exam of exams) {
       totalWeightSoFar += exam.weight;
-      weightedGradeSoFar += exam.grade * (exam.weight / 100);
-    });
+      weightedGradeSoFar += exam.grade * (exam.weight / MAX_GRADE_PERCENTAGE);
+    }
 
-    if (totalWeightSoFar + data.finalExamWeight > 100) {
+    if (totalWeightSoFar + data.finalExamWeight > MAX_GRADE_PERCENTAGE) {
       alert(
-        "Le total des pourcentages dépasse 100%. Veuillez vérifier vos entrées.",
+        "Le total des pourcentages dépasse 100%. Veuillez vérifier vos entrées."
       );
       return;
     }
 
-    const requiredGrade =
+    const calculatedRequiredGrade =
       (data.passingGrade * (totalWeightSoFar + data.finalExamWeight) -
-        weightedGradeSoFar * 100) /
+        weightedGradeSoFar * MAX_GRADE_PERCENTAGE) /
       data.finalExamWeight;
 
-    if (requiredGrade > 100) {
+    if (calculatedRequiredGrade > MAX_GRADE_PERCENTAGE) {
       setIsPossible(false);
     } else {
       setIsPossible(true);
     }
-    console.log(requiredGrade);
-    setRequiredGrade(requiredGrade);
+    setRequiredGrade(calculatedRequiredGrade);
   };
 
   const onSubmit = (data: GradeFormData) => {
@@ -152,12 +165,12 @@ const ContentRectangleGrade = () => {
   };
 
   return (
-    <div className="w-full md:w-3/5 h-screen bg-white absolute right-0 shadow-2xl flex items-center justify-center">
+    <div className="absolute right-0 flex h-screen w-full items-center justify-center bg-white shadow-2xl md:w-3/5">
       <form
+        className="relative flex h-full w-full items-center justify-center"
         onSubmit={handleSubmit(onSubmit)}
-        className="relative h-full w-full flex justify-center items-center"
       >
-        {currentStep === 1 && (
+        {currentStep === FIRST_STEP && (
           <div
             className={`absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-500 ${
               isVisible ? "opacity-100" : "opacity-0"
@@ -167,49 +180,49 @@ const ContentRectangleGrade = () => {
               <p>Entrez la note de passage (%)</p>
             </div>
             <Input
-              className="w-2/4 mb-5"
+              className="mb-5 w-2/4"
               {...register("passingGrade", { valueAsNumber: true })}
             />
             {errors.passingGrade && (
-              <p className="text-red-500 pb-2">{errors.passingGrade.message}</p>
+              <p className="pb-2 text-red-500">{errors.passingGrade.message}</p>
             )}
-            <ShimmerButton type="button" onClick={handleNextStep}>
+            <ShimmerButton onClick={handleNextStep} type="button">
               Suivant
             </ShimmerButton>
           </div>
         )}
-        {currentStep === 2 && (
+        {currentStep === SECOND_STEP && (
           <div
             className={`absolute inset-0 flex flex-col items-center px-10 py-10 transition-opacity duration-500 ${
               isVisible ? "opacity-100" : "opacity-0"
             }`}
           >
-            <div className="w-full max-h-screen overflow-auto pt-20">
-              <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl font-bold">Examens:</h2>
+            <div className="max-h-screen w-full overflow-auto pt-20">
+              <div className="mb-4 flex items-center justify-between">
+                <h2 className="font-bold text-xl">Examens:</h2>
                 <div className="flex flex-row items-center">
                   <p className="mr-2">Poids de l'examen final (%)</p>
                   <Input
                     className="w-24"
-                    type="number"
                     placeholder="Ex: 40"
+                    type="number"
                     {...register("finalExamWeight", { valueAsNumber: true })}
                   />
                 </div>
               </div>
               {errors.finalExamWeight && (
-                <p className="text-red-500 pb-2">
+                <p className="pb-2 text-red-500">
                   {errors.finalExamWeight.message}
                 </p>
               )}
-              <div className="h-auto min-h-[10rem] max-h-[55vh] w-full overflow-auto">
+              <div className="h-auto max-h-[55vh] min-h-[10rem] w-full overflow-auto">
                 {exams.length === 0 && <p>Aucun examen ajouté.</p>}
                 {exams.map((exam) => (
                   <div
+                    className="mb-2 rounded bg-gray-100 p-4 shadow"
                     key={exam.id}
-                    className="bg-gray-100 p-4 mb-2 rounded shadow"
                   >
-                    <div className="flex justify-between items-center">
+                    <div className="flex items-center justify-between">
                       <div>
                         {exam.name && (
                           <p>
@@ -225,10 +238,10 @@ const ContentRectangleGrade = () => {
                       </div>
                       <div>
                         <Button
-                          variant="destructive"
-                          type="button"
+                          className="mt-2 rounded px-4 py-2 text-white transition duration-300"
                           onClick={() => handleRemoveExam(exam.id)}
-                          className="mt-2 px-4 py-2 text-white rounded transition duration-300"
+                          type="button"
+                          variant="destructive"
                         >
                           Supprimer
                         </Button>
@@ -238,38 +251,38 @@ const ContentRectangleGrade = () => {
                 ))}
               </div>
             </div>
-            <div className="flex justify-center w-5/6 gap-16 pt-8">
+            <div className="flex w-5/6 justify-center gap-16 pt-8">
               <ShimmerButton
-                type="button"
                 className="w-1/5 items-center pt-3"
                 onClick={() => setIsAddExamModalOpen(true)}
+                type="button"
               >
                 Ajout examen
               </ShimmerButton>
               {exams.length > 0 && (
                 <ShimmerButton
-                  type="submit"
                   className="w-1/5 items-center pt-3"
+                  type="submit"
                 >
                   Calculer
                 </ShimmerButton>
               )}
             </div>
             {requiredGrade !== null && (
-              <div className="mt-8 p-6 rounded-lg bg-gray-50 text-center w-3/4">
-                <h2 className="text-xl font-semibold text-gray-700 mb-4">
+              <div className="mt-8 w-3/4 rounded-lg bg-gray-50 p-6 text-center">
+                <h2 className="mb-4 font-semibold text-gray-700 text-xl">
                   Note minimale requise:
                 </h2>
                 {isPossible ? (
-                  <div className="text-2xl font-bold text-blue-600">
+                  <div className="font-bold text-2xl text-blue-600">
                     <NumberTicker
-                      value={Math.max(0, requiredGrade)}
                       className="font-bold text-blue-600"
+                      value={Math.max(0, requiredGrade)}
                     />
                     %
                   </div>
                 ) : (
-                  <div className="text-lg font-medium text-red-500">
+                  <div className="font-medium text-lg text-red-500">
                     <p className="mb-2">
                       Il n'est pas mathématiquement possible d'atteindre la note
                       de passage.
@@ -277,8 +290,8 @@ const ContentRectangleGrade = () => {
                     <p>
                       Vous auriez besoin d'une note de{" "}
                       <NumberTicker
-                        value={requiredGrade}
                         className="font-bold text-red-500"
+                        value={requiredGrade}
                       />
                       %.
                     </p>
@@ -289,12 +302,12 @@ const ContentRectangleGrade = () => {
           </div>
         )}
       </form>
-      <Dialog open={isAddExamModalOpen} onOpenChange={setIsAddExamModalOpen}>
+      <Dialog onOpenChange={setIsAddExamModalOpen} open={isAddExamModalOpen}>
         <DialogContent
-          className={`bg-white text-black p-0 overflow-hidden transition-opacity duration-300 ${isAddExamModalOpen ? "opacity-100" : "opacity-0"}`}
+          className={`overflow-hidden bg-white p-0 text-black transition-opacity duration-300 ${isAddExamModalOpen ? "opacity-100" : "opacity-0"}`}
         >
-          <DialogHeader className="pt-8 px-6">
-            <DialogTitle className="text-2xl text-center font-bold">
+          <DialogHeader className="px-6 pt-8">
+            <DialogTitle className="text-center font-bold text-2xl">
               Ajouter un examen
             </DialogTitle>
             <DialogDescription className="text-center text-zinc-500">
@@ -302,16 +315,19 @@ const ContentRectangleGrade = () => {
             </DialogDescription>
           </DialogHeader>
           <form
-            onSubmit={handleSubmitExam(handleAddExam)}
             className="space-y-8 px-6"
+            onSubmit={handleSubmitExam(handleAddExam)}
           >
             <div>
-              <label className="block mb-2">Nom (Optionel)</label>
+              <label className="mb-2 block" htmlFor="examName">
+                Nom (Optionel)
+              </label>
               <Input
                 {...registerExam("name", { valueAsNumber: false })}
-                className="w-full mb-4"
-                type="text"
+                className="mb-4 w-full"
+                id="examName"
                 placeholder="Mini-test"
+                type="text"
               />
               {examErrors.grade && (
                 <p className="text-red-500">{examErrors.grade.message}</p>
@@ -319,37 +335,43 @@ const ContentRectangleGrade = () => {
             </div>
 
             <div>
-              <label className="block mb-2">Note obtenue (%)</label>
+              <label className="mb-2 block" htmlFor="examGrade">
+                Note obtenue (%)
+              </label>
               <Input
                 {...registerExam("grade")}
-                className="w-full mb-4"
-                type="text"
+                className="mb-4 w-full"
+                id="examGrade"
                 placeholder="Ex.: 75.5"
+                type="text"
               />
               {examErrors.grade && (
                 <p className="text-red-500">{examErrors.grade.message}</p>
               )}
             </div>
             <div>
-              <label className="block mb-2">Poids de l'examen (%)</label>
+              <label className="mb-2 block" htmlFor="examWeight">
+                Poids de l'examen (%)
+              </label>
               <Input
                 {...registerExam("weight")}
-                className="w-full mb-4"
-                type="text"
+                className="mb-4 w-full"
+                id="examWeight"
                 placeholder="Ex.: 20"
+                type="text"
               />
               {examErrors.weight && (
                 <p className="text-red-500">{examErrors.weight.message}</p>
               )}
             </div>
             <DialogFooter className="px-6 py-4">
-              <Button variant="default" type="submit">
+              <Button type="submit" variant="default">
                 Ajouter
               </Button>
               <Button
-                variant="secondary"
-                type="button"
                 onClick={() => setIsAddExamModalOpen(false)}
+                type="button"
+                variant="secondary"
               >
                 Annuler
               </Button>

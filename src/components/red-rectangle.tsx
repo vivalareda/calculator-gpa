@@ -3,7 +3,7 @@ import Link from "next/link";
 
 const RedRectangle = () => {
   return (
-    <div className="flex h-screen w-full flex-col justify-between bg-gradient-to-br from-red-600 to-red-800 p-10 md:w-2/5">
+    <div className="hidden h-screen w-full flex-col justify-between bg-gradient-to-br from-red-600 to-red-800 p-6 md:flex md:w-2/5 md:p-10">
       <div className="flex items-center gap-5">
         <Link
           className="text-white transition-colors hover:text-white/80"
@@ -25,7 +25,7 @@ const RedRectangle = () => {
             <GraduationCap className="h-10 w-10 text-white" />
             <Calculator className="h-10 w-10 text-white/80" />
           </div>
-          <h1 className="font-bold text-4xl text-white leading-tight">
+          <h1 className="font-bold text-3xl text-white leading-tight lg:text-4xl">
             Calculateurs et outils
           </h1>
         </div>

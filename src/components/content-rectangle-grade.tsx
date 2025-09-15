@@ -167,7 +167,7 @@ const ContentRectangleGrade = () => {
   return (
     <div className="absolute right-0 flex h-screen w-full items-center justify-center bg-white shadow-2xl md:w-3/5">
       <form
-        className="relative flex h-full w-full items-center justify-center"
+        className="relative flex h-full w-full items-center justify-center px-4 sm:px-6 md:px-8"
         onSubmit={handleSubmit(onSubmit)}
       >
         {currentStep === FIRST_STEP && (
@@ -177,14 +177,18 @@ const ContentRectangleGrade = () => {
             }`}
           >
             <div className="flex flex-row items-center pb-3">
-              <p>Entrez la note de passage (%)</p>
+              <p className="text-sm sm:text-base">
+                Entrez la note de passage (%)
+              </p>
             </div>
             <Input
-              className="mb-5 w-2/4"
+              className="mb-5 w-full max-w-xs sm:w-3/4 md:w-2/4"
               {...register("passingGrade", { valueAsNumber: true })}
             />
             {errors.passingGrade && (
-              <p className="pb-2 text-red-500">{errors.passingGrade.message}</p>
+              <p className="pb-2 text-red-500 text-sm">
+                {errors.passingGrade.message}
+              </p>
             )}
             <ShimmerButton onClick={handleNextStep} type="button">
               Suivant
@@ -193,17 +197,19 @@ const ContentRectangleGrade = () => {
         )}
         {currentStep === SECOND_STEP && (
           <div
-            className={`absolute inset-0 flex flex-col items-center px-10 py-10 transition-opacity duration-500 ${
+            className={`absolute inset-0 flex flex-col items-center px-4 py-6 transition-opacity duration-500 sm:px-6 sm:py-8 md:px-10 md:py-10 ${
               isVisible ? "opacity-100" : "opacity-0"
             }`}
           >
-            <div className="max-h-screen w-full overflow-auto pt-20">
-              <div className="mb-4 flex items-center justify-between">
-                <h2 className="font-bold text-xl">Examens:</h2>
-                <div className="flex flex-row items-center">
-                  <p className="mr-2">Poids de l'examen final (%)</p>
+            <div className="max-h-screen w-full overflow-auto pt-12 sm:pt-16 md:pt-20">
+              <div className="mb-3 flex flex-col items-start justify-between gap-3 sm:mb-4 sm:flex-row sm:items-center sm:gap-0">
+                <h2 className="font-bold text-lg sm:text-xl">Examens:</h2>
+                <div className="flex flex-col items-start sm:flex-row sm:items-center">
+                  <p className="mb-1 text-sm sm:mb-0 sm:mr-2 sm:text-base">
+                    Poids de l'examen final (%)
+                  </p>
                   <Input
-                    className="w-24"
+                    className="w-20 sm:w-24"
                     placeholder="Ex: 40"
                     type="number"
                     {...register("finalExamWeight", { valueAsNumber: true })}
@@ -211,19 +217,21 @@ const ContentRectangleGrade = () => {
                 </div>
               </div>
               {errors.finalExamWeight && (
-                <p className="pb-2 text-red-500">
+                <p className="pb-2 text-red-500 text-sm">
                   {errors.finalExamWeight.message}
                 </p>
               )}
-              <div className="h-auto max-h-[55vh] min-h-[10rem] w-full overflow-auto">
-                {exams.length === 0 && <p>Aucun examen ajouté.</p>}
+              <div className="h-auto max-h-[45vh] min-h-[8rem] w-full overflow-auto sm:max-h-[50vh] sm:min-h-[10rem] md:max-h-[55vh]">
+                {exams.length === 0 && (
+                  <p className="text-sm sm:text-base">Aucun examen ajouté.</p>
+                )}
                 {exams.map((exam) => (
                   <div
                     className="mb-2 rounded bg-gray-100 p-4 shadow"
                     key={exam.id}
                   >
-                    <div className="flex items-center justify-between">
-                      <div>
+                    <div className="flex flex-col items-start justify-between gap-2 sm:flex-row sm:items-center sm:gap-0">
+                      <div className="text-sm sm:text-base">
                         {exam.name && (
                           <p>
                             <strong>Nom:</strong> {exam.name}
@@ -236,9 +244,9 @@ const ContentRectangleGrade = () => {
                           <strong>Poids:</strong> {exam.weight}%
                         </p>
                       </div>
-                      <div>
+                      <div className="flex shrink-0">
                         <Button
-                          className="mt-2 rounded px-4 py-2 text-white transition duration-300"
+                          className="mt-1 rounded px-3 py-1 text-sm text-white transition duration-300 sm:mt-2 sm:px-4 sm:py-2"
                           onClick={() => handleRemoveExam(exam.id)}
                           type="button"
                           variant="destructive"
@@ -251,9 +259,9 @@ const ContentRectangleGrade = () => {
                 ))}
               </div>
             </div>
-            <div className="flex w-5/6 justify-center gap-16 pt-8">
+            <div className="flex w-full flex-col justify-center gap-4 pt-4 sm:w-5/6 sm:flex-row sm:gap-8 sm:pt-6 md:gap-16 md:pt-8">
               <ShimmerButton
-                className="w-1/5 items-center pt-3"
+                className="w-full items-center pt-3 text-sm sm:w-2/5 sm:text-base md:w-1/5"
                 onClick={() => setIsAddExamModalOpen(true)}
                 type="button"
               >
@@ -261,7 +269,7 @@ const ContentRectangleGrade = () => {
               </ShimmerButton>
               {exams.length > 0 && (
                 <ShimmerButton
-                  className="w-1/5 items-center pt-3"
+                  className="w-full items-center pt-3 text-sm sm:w-2/5 sm:text-base md:w-1/5"
                   type="submit"
                 >
                   Calculer
@@ -269,12 +277,12 @@ const ContentRectangleGrade = () => {
               )}
             </div>
             {requiredGrade !== null && (
-              <div className="mt-8 w-3/4 rounded-lg bg-gray-50 p-6 text-center">
-                <h2 className="mb-4 font-semibold text-gray-700 text-xl">
+              <div className="mt-4 w-full rounded-lg bg-gray-50 p-4 text-center sm:mt-6 sm:w-3/4 sm:p-6 md:mt-8">
+                <h2 className="mb-2 font-semibold text-gray-700 text-lg sm:mb-4 sm:text-xl">
                   Note minimale requise:
                 </h2>
                 {isPossible ? (
-                  <div className="font-bold text-2xl text-blue-600">
+                  <div className="font-bold text-xl text-blue-600 sm:text-2xl">
                     <NumberTicker
                       className="font-bold text-blue-600"
                       value={Math.max(0, requiredGrade)}
@@ -282,12 +290,12 @@ const ContentRectangleGrade = () => {
                     %
                   </div>
                 ) : (
-                  <div className="font-medium text-lg text-red-500">
-                    <p className="mb-2">
+                  <div className="font-medium text-base text-red-500 sm:text-lg">
+                    <p className="mb-1 sm:mb-2">
                       Il n'est pas mathématiquement possible d'atteindre la note
                       de passage.
                     </p>
-                    <p>
+                    <p className="text-sm sm:text-base">
                       Vous auriez besoin d'une note de{" "}
                       <NumberTicker
                         className="font-bold text-red-500"

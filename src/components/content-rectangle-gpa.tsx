@@ -118,7 +118,7 @@ const ContentRectangleGpa = () => {
 
   return (
     <div className="absolute right-0 flex h-screen w-full items-center justify-center bg-white shadow-2xl md:w-3/5">
-      <form className="relative flex h-full w-full items-center justify-center">
+      <form className="relative flex h-full w-full items-center justify-center px-4 sm:px-6 md:px-8">
         {currentStep === 1 && (
           <div
             className={`absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-500${
@@ -126,7 +126,7 @@ const ContentRectangleGpa = () => {
             }`}
           >
             <div className="flex flex-row items-center pb-3">
-              <p>Entrez votre cote actuelle</p>
+              <p className="text-sm sm:text-base">Entrez votre cote actuelle</p>
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
@@ -150,11 +150,11 @@ const ContentRectangleGpa = () => {
               </TooltipProvider>
             </div>
             <Input
-              className="mb-5 w-2/4"
+              className="mb-5 w-full max-w-xs sm:w-3/4 md:w-2/4"
               {...register("gpa", { valueAsNumber: true })}
             />
             {errors.gpa && (
-              <p className="pb-2 text-red-500">{errors.gpa.message}</p>
+              <p className="pb-2 text-red-500 text-sm">{errors.gpa.message}</p>
             )}
             <ShimmerButton onClick={handleNextStep} type="button">
               Suivant
@@ -167,13 +167,17 @@ const ContentRectangleGpa = () => {
               isVisible ? "opacity-100" : "opacity-0"
             }`}
           >
-            <p className="pb-3">Entrez le nombre de crédits complété</p>
+            <p className="pb-3 text-sm sm:text-base">
+              Entrez le nombre de crédits complété
+            </p>
             <Input
-              className="mb-5 w-2/4"
+              className="mb-5 w-full max-w-xs sm:w-3/4 md:w-2/4"
               {...register("credits", { valueAsNumber: true })}
             />
             {errors.credits && (
-              <p className="pb-2 text-red-500">{errors.credits.message}</p>
+              <p className="pb-2 text-red-500 text-sm">
+                {errors.credits.message}
+              </p>
             )}
             <ShimmerButton onClick={handleNextStep} type="button">
               Suivant
@@ -182,14 +186,18 @@ const ContentRectangleGpa = () => {
         )}
         {currentStep === THIRD_STEP && (
           <div
-            className={`absolute inset-0 flex h-screen flex-col items-center justify-start px-6 py-8 pt-20 transition-opacity duration-500${
+            className={`absolute inset-0 flex h-screen flex-col items-center justify-start px-4 py-6 pt-16 transition-opacity duration-500 sm:px-6 sm:py-8 sm:pt-20${
               isVisible ? "opacity-100" : "opacity-0"
             }`}
           >
             <div className="w-full">
-              <h2 className="mb-4 pb-3 font-bold text-xl">Cours:</h2>
-              <div className="h-auto max-h-[55vh] min-h-[10rem] w-full overflow-auto">
-                {courses.length === 0 && <p>Aucun cours ajouté.</p>}
+              <h2 className="mb-3 pb-2 font-bold text-lg sm:mb-4 sm:pb-3 sm:text-xl">
+                Cours:
+              </h2>
+              <div className="h-auto max-h-[50vh] min-h-[8rem] w-full overflow-auto sm:max-h-[55vh] sm:min-h-[10rem]">
+                {courses.length === 0 && (
+                  <p className="text-sm sm:text-base">Aucun cours ajouté.</p>
+                )}
                 {courses.map((course) => (
                   <div
                     className="mb-2 rounded bg-gray-100 p-4 shadow"
@@ -204,9 +212,9 @@ const ContentRectangleGpa = () => {
                 ))}
               </div>
             </div>
-            <div className="flex w-5/6 justify-center gap-16 pt-8">
+            <div className="flex w-full flex-col justify-center gap-4 pt-6 sm:w-5/6 sm:flex-row sm:gap-8 sm:pt-8 md:gap-16">
               <ShimmerButton
-                className="w-1/5 items-center pt-3"
+                className="w-full items-center pt-3 sm:w-2/5 md:w-1/5"
                 onClick={() => openModal("addCourse")}
                 type="button"
               >
@@ -214,7 +222,7 @@ const ContentRectangleGpa = () => {
               </ShimmerButton>
               {courses.length > 0 && (
                 <ShimmerButton
-                  className="w-1/5 items-center pt-3"
+                  className="w-full items-center pt-3 sm:w-2/5 md:w-1/5"
                   onClick={handleCalculateClick}
                   type="button"
                 >
@@ -223,8 +231,8 @@ const ContentRectangleGpa = () => {
               )}
             </div>
             {gpa !== null && (
-              <div className="mt-4 text-center">
-                <h3 className="font-bold text-xl">
+              <div className="mt-3 text-center sm:mt-4">
+                <h3 className="font-bold text-lg sm:text-xl">
                   Votre côte: <NumberTicker value={gpa} />
                 </h3>
               </div>

@@ -26,9 +26,9 @@ function CourseCard({ course }: CourseCardProps) {
       rel="noopener noreferrer"
       target="_blank"
     >
-      <div className="mb-3 flex items-start justify-between">
+      <div className="mb-2 flex flex-col items-start justify-between gap-2 sm:flex-row sm:items-center sm:gap-0">
         <div className="flex items-center gap-2">
-          <h3 className="text-lg font-semibold text-gray-900 transition-colors group-hover:text-blue-600">
+          <h3 className="text-base font-semibold text-gray-900 transition-colors group-hover:text-blue-600 sm:text-lg">
             {course.code}
           </h3>
           <ExternalLink className="h-4 w-4 text-gray-400 transition-colors group-hover:text-blue-600" />
@@ -41,7 +41,9 @@ function CourseCard({ course }: CourseCardProps) {
           ))}
         </div>
       </div>
-      <p className="text-sm leading-relaxed text-gray-700">{course.name}</p>
+      <p className="text-xs leading-relaxed text-gray-700 sm:text-sm">
+        {course.name}
+      </p>
     </a>
   );
 }
@@ -89,18 +91,18 @@ export default function CourseFinderPage() {
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="mb-8 text-center">
-          <h1 className="mb-4 text-3xl font-bold text-gray-900">
+        <div className="mb-6 text-center sm:mb-8">
+          <h1 className="mb-3 text-2xl font-bold text-gray-900 sm:mb-4 sm:text-3xl">
             Filtrer les cours par spécialisation
           </h1>
-          <p className="mx-auto max-w-2xl text-lg text-gray-600">
+          <p className="mx-auto max-w-2xl text-base text-gray-600 sm:text-lg">
             Découvrez les cours disponibles selon votre domaine d'intérêt.
             Filtrez par spécialisation pour planifier votre parcours académique.
           </p>
         </div>
 
-        <div className="mb-8 rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
-          <div className="space-y-6">
+        <div className="mb-6 rounded-lg border border-gray-200 bg-white p-4 shadow-sm sm:mb-8 sm:p-6">
+          <div className="space-y-4 sm:space-y-6">
             {/* Search Bar */}
             <div>
               <label
@@ -110,7 +112,7 @@ export default function CourseFinderPage() {
                 Rechercher un cours
               </label>
               <Input
-                className="max-w-md"
+                className="w-full max-w-md"
                 id="search"
                 onChange={(e) => setSearchTerm(e.target.value)}
                 placeholder="Rechercher par sigle"
@@ -121,7 +123,7 @@ export default function CourseFinderPage() {
 
             {/* Specialization Filters */}
             <div>
-              <div className="mb-4 flex items-center justify-between">
+              <div className="mb-3 flex flex-col items-start justify-between gap-2 sm:mb-4 sm:flex-row sm:items-center sm:gap-0">
                 <h1 className="block text-sm font-medium text-gray-700">
                   Spécialisations
                 </h1>

@@ -60,13 +60,13 @@ const examSchema = z.object({
     .string()
     .transform((val) => Number.parseFloat(val))
     .refine((val) => !Number.isNaN(val), {
-      message: "La note doit être un nombre valide",
+      message: "Le poids doit être un nombre valide",
     })
     .refine((val) => val >= MIN_GRADE_PERCENTAGE, {
-      message: "La note doit être au moins 0.",
+      message: "Le poids doit être au moins 0.",
     })
     .refine((val) => val <= MAX_GRADE_PERCENTAGE, {
-      message: "La note doit être au maximum 100.",
+      message: "Le poids doit être au maximum 100.",
     }),
 });
 
@@ -337,9 +337,6 @@ const ContentRectangleGrade = () => {
                 placeholder="Mini-test"
                 type="text"
               />
-              {examErrors.grade && (
-                <p className="text-red-500">{examErrors.grade.message}</p>
-              )}
             </div>
 
             <div>

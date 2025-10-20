@@ -1,5 +1,5 @@
 "use client";
-import { Calculator, GraduationCap, Search } from "lucide-react";
+import { Calculator, GraduationCap, NotepadText, Search } from "lucide-react";
 import Link from "next/link";
 import RedRectangle from "../components/red-rectangle";
 
@@ -13,7 +13,7 @@ export default function Home() {
             Que voulez-vous faire?
           </h1>
 
-          <div className="grid w-full max-w-4xl gap-4 sm:gap-6 md:grid-cols-3">
+          <div className="grid w-full max-w-4xl gap-4 sm:gap-6 md:grid-cols-2">
             <Link className="w-full" href="/gpa">
               <div className="group h-full">
                 <div className="flex h-full flex-col items-center justify-start gap-3 rounded-xl border border-gray-200 bg-white p-4 pt-8 text-center shadow-sm transition-all hover:border-blue-300 hover:shadow-md sm:gap-4 sm:p-8 sm:pt-12">
@@ -65,6 +65,24 @@ export default function Home() {
                     <p className="text-gray-600 text-xs sm:text-sm">
                       Filtrez les cours par spécialisation/catégorie pour se
                       spécialiser
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </Link>
+
+            <Link className="w-full" href="https://remembr.reda.sh">
+              <div className="group h-full">
+                <div className="flex h-full flex-col items-center justify-start gap-3 rounded-xl border border-gray-200 bg-white p-4 pt-8 text-center shadow-sm transition-all hover:border-orange-300 hover:shadow-md sm:gap-4 sm:p-8 sm:pt-12">
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-orange-100 transition-colors group-hover:bg-orange-200 sm:h-16 sm:w-16">
+                    <NotepadText className="h-6 w-6 text-orange-600 sm:h-8 sm:w-8" />
+                  </div>
+                  <div>
+                    <h2 className="mb-1 font-bold text-gray-800 text-lg sm:mb-2 sm:text-xl">
+                      Application de Flashcard
+                    </h2>
+                    <p className="text-gray-600 text-xs sm:text-sm">
+                      Créez des flashcards pour votre étude
                     </p>
                   </div>
                 </div>
